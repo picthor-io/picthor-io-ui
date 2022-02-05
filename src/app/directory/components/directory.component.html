@@ -1,0 +1,54 @@
+<ng-template #recursiveParentTmpl let-directory="directory">
+  <ng-container *ngIf="directory.parent">
+    <ng-container *ngTemplateOutlet="recursiveParentTmpl; context: { directory: directory.parent }"></ng-container>
+    <a routerLink="/directories/{{ directory.parentId }}">
+      {{ directory.parent?.label || directory.parent?.name || directory.parent?.id }}
+    </a>
+    <span>/</span>
+  </ng-container>
+</ng-template>
+
+<div class="content-area">
+  <div *ngIf="directory$ | async as directory" cds-layout="horizontal gap:md align:vertical-center p-x:md">
+    <cds-button routerLink="/home" action="outline">
+      <cds-icon shape="home"></cds-icon>
+    </cds-button>
+    <cds-divider orientation="vertical"></cds-divider>
+    <ng-container *ngTemplateOutlet="recursiveParentTmpl; context: { directory: directory }"></ng-container>
+    <span>
+      {{ directory?.label || directory?.name || directory?.id }}
+    </span>
+    <cds-divider></cds-divider>
+  </div>
+
+  <div class="clr-row" *ngIf="children$ | async as children">
+    <div *ngFor="let child of children; let i = index" class="clr-col-xl-2 clr-col-lg-3 clr-col-md-6 clr-col-sm-12">
+      <div routerLink="/directories/{{ child.id }}" class="card clickable">
+        <div class="card-block">
+          <div class="card-media-block">
+            <div class="card-media-image">
+              <cds-icon size="xl" [status]="'info'" [solid]="true" shape="folder"></cds-icon>
+            </div>
+            <div class="card-media-description">
+              <div class="clr-row" style="height: 100%">
+                <div class="clr-col-12" style="word-break: break-all;">{{ child.label || child.name || child.id }}</div>
+                <div class="clr-col-12">
+                  <span class="p5" style="vertical-align: text-top; margin-left: 2px"
+                    >{{ child.stats.totalDirsNum }} | {{ child.stats.totalFilesNum }} |
+                    {{ child.stats.totalSizeBytes | appPrettyBytes }}</span
+                  >
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <app-file-data-list
+    [sort]="[{ field: 'created_at', dir: 'DESC' }]"
+    [filter]="[{ field: 'directory_id', value: this.id }]"
+  ></app-file-data-list>
+</div>

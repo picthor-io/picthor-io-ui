@@ -1,0 +1,46 @@
+<div class="card">
+  <div class="card-block">
+    <div class="card-title">{{ directory.name }}</div>
+    <div class="card-text">
+      <div class="card-media-description">
+        <div class="clr-row" style="height: 100%">
+          <div class="clr-col-12">
+                  <span style="vertical-align: text-top; margin-left: 2px"
+                  >{{ directory.stats.totalDirsNum }} | {{ directory.stats.totalFilesNum }} |
+                    {{ directory.stats.totalSizeBytes | appPrettyBytes }}</span
+                  >
+          </div>
+        </div>
+      </div>
+      <br/>
+      <ng-container *ngIf="syncJobs && this.pollingSyncState">
+        <div *ngFor="let job of syncJobs" class="progress-block clr-row">
+          <ng-container *ngIf="job.counterCurrent > 0">
+            <div class="clr-col-12"><label>{{ job.name }}</label>: {{ job.counterCurrent }} of {{ job.counterTotal }}
+            </div>
+            <div class="clr-col-12">
+              <clr-progress-bar
+                [clrFlash]="true"
+                [clrValue]="job.counterCurrent"
+                [clrMax]="job.counterTotal"
+              ></clr-progress-bar>
+            </div>
+          </ng-container>
+        </div>
+      </ng-container>
+    </div>
+  </div>
+  <div class="card-footer">
+    <button
+      [disabled]="!(directory.stats.totalFilesNum > 0)"
+      routerLink="/directories/{{ directory.id }}"
+      type="button"
+      class="btn btn-sm btn-link"
+    >
+      Browse
+    </button>
+    <button [disabled]="pollingSyncState" (click)="syncDirectory(directory)" type="button" class="btn btn-sm btn-link">
+      Sync
+    </button>
+  </div>
+</div>

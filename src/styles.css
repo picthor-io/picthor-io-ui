@@ -1,0 +1,25 @@
+.modal-dialog.modal-xl {
+  width: 90%;
+  height: 90%;
+}
+
+.file-data-img {
+  min-height: 200px;
+  max-height: 200px;
+  object-fit: scale-down;
+}
+.main-container .content-container {
+  display: block;
+}
+.main-container {
+  /*height: 100%;*/
+  min-height: 100%;
+}
+
+.preview-container {
+  cursor: pointer;
+}
+
+.file-data-text .p5 {
+  margin-top: 0 !important;
+}
