@@ -11,7 +11,7 @@ import { HomeComponent } from '@picthor/home/home.component';
 import { SharedModule } from '@picthor/shared/shared.module';
 import { DirectoriesService } from '@picthor/directory/directory.service';
 import { FileDataService } from '@picthor/file-data/file-data.service';
-import { FileDataListComponent } from '@picthor/file-data/components/file-data-list.component';
+import { FileDataListComponent } from '@picthor/file-data/file-data-grid/file-data-list.component';
 import { RootsComponent } from '@picthor/roots/roots.component';
 import { RootCardComponent } from '@picthor/roots/root-card.component';
 import { NotificationsService } from '@picthor/notifications/notifications.service';
@@ -21,7 +21,8 @@ import { tap } from 'rxjs/operators';
 import { Observable } from 'rxjs';
 import { environment } from '../environments/environment';
 import { LazyLoadImageModule } from 'ng-lazyload-image';
-import { ClrModalModule, ClrProgressBarModule, ClrSignpostModule } from '@clr/angular';
+import { ClrModalModule, ClrProgressBarModule, ClrSignpostModule, ClrSpinnerModule } from '@clr/angular';
+import { FileDataModalComponent } from '@picthor/file-data/file-data-modal/file-data-modal.component';
 
 function initializeAppEnv(httpClient: HttpClient): () => Observable<any> {
   return () =>
@@ -40,6 +41,7 @@ function initializeAppEnv(httpClient: HttpClient): () => Observable<any> {
     FileDataListComponent,
     RootsComponent,
     RootCardComponent,
+    FileDataModalComponent,
   ],
   imports: [
     BrowserModule,
@@ -56,6 +58,7 @@ function initializeAppEnv(httpClient: HttpClient): () => Observable<any> {
     ClrModalModule,
     ClrSignpostModule,
     LazyLoadImageModule,
+    ClrSpinnerModule
 
   ],
   providers: [

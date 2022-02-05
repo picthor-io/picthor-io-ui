@@ -1,0 +1,97 @@
+<clr-modal
+  (clrModalOpenChange)="modalClose()"
+  [(clrModalOpen)]="openModal"
+  [clrModalSize]="'xl'"
+  [clrModalStaticBackdrop]="false"
+  >
+  <h3 class="modal-title" *ngIf="modalImage">{{ modalImage.fileName }}</h3>
+
+  <div class="modal-body">
+    <div class="clr-row">
+      <div class="clr-col-xl-7 clr-col-sm-12" >
+
+        <div class='picture-center' >
+          <div #arrL class="slider__btn slider__btn--left"
+          (click)='modalPrevious()'>
+            <cds-icon shape="angle" direction='left'></cds-icon>
+          </div>
+          <clr-spinner *ngIf="loading"></clr-spinner>
+          <img
+            #imageRotate
+            class="modal-image"
+            *ngIf="modalImage"
+            [src]="fullPreview"
+            alt="{{ modalImage.fileName }}"
+            [hidden]="loading"
+            (load)="onLoad()"
+          />
+          <div #arrR class="slider__btn slider__btn--right"
+          (click)='modalNext();'>
+            <cds-icon shape="angle" direction='right'></cds-icon>
+          </div>
+        </div>
+
+      </div>
+      <div *ngIf="modalMeta$ | async as meta" class="clr-col-xl-5 clr-col-sm-12">
+        <div>
+          <button (click)="downloadImage(modalImage)" class="btn btn-info-outline" style='float: right'>
+            <cds-icon shape="download"></cds-icon></button>
+        </div>
+        <div style='margin-top: 0;'>
+          <button  (click) = "rotateImg()" class = "btn btn-info-outline" style='float: right'>
+            <cds-icon shape="refresh"></cds-icon></button>
+        </div>
+        <div class='row' >
+
+          <table class="table table-compact table-noborder">
+            <caption>
+              {{modalImage?.fileName}}
+            </caption>
+            <thead>
+            <tr>
+              <th class="right">Information</th>
+              <th class="left" (click)="isShown =!isShown" style="cursor: pointer">
+                <a *ngIf="!isShown"> Show More</a>
+                <a *ngIf="isShown"> Show Less</a></th>
+            </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td class="right">Format </td>
+                <td class="left">{{getFormat(meta[0])}}</td>
+              </tr>
+            <tr>
+              <td class="right">File Size </td>
+              <td class="left">{{modalImage?.sizeBytes | appPrettyBytes}}</td>
+            </tr>
+            <tr>
+              <td class="right">Resolution </td>
+              <td class="left">{{getImageGeometry(meta[0])}}</td>
+            </tr>
+            <tr>
+              <td class="right">Date Created  </td>
+              <td class="left">{{modalImage?.createdAt | date:'short' }}</td>
+            </tr>
+            <tr>
+              <td class="right">Date Modified  </td>
+              <td class="left">{{getModifiedDate(meta[0]) | date:'short'}}</td>
+            </tr>
+
+            <tr *ngIf="isShown">
+              <td class="right">Date Created  </td>
+              <td class="left">{{modalImage?.createdAt }}</td>
+            </tr>
+            <tr *ngIf="isShown">
+              <td class="right">Date Modified  </td>
+              <td class="left">{{getModifiedDate(meta[0]) }}</td>
+            </tr>
+
+
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</clr-modal>
+

@@ -19,7 +19,7 @@ export class Options {
 })
 export class FileDataListComponent implements OnInit {
   openModal = false;
-  modalImage?: FileData;
+  modalImage!: FileData;
   modalMeta$?: Observable<any[]>;
 
   currentPage = 1;
@@ -29,7 +29,8 @@ export class FileDataListComponent implements OnInit {
   filesPage$: Observable<PagedEntities<FileData>> = of(new PagedEntities<FileData>());
   files$?: Observable<FileData[]>;
 
-  isShown: boolean = false ;
+  fileArr: FileData[] = [];
+  indexArr: any;
 
   private filterData: { field: string; value: any }[] = [];
 
@@ -43,51 +44,6 @@ export class FileDataListComponent implements OnInit {
     SHOW_ADDED_ON: true,
     SHOW_INDEX_OFF_TOTAL: true,
   };
-
-  private creationDateFields = ["image.date:created", "image.date:updated"];
-
-
-  public jsonData = this.modalMeta$;
-
-  public getFormat(data:any) : String{
-    return data?.image["Format"] ||
-      data?.image["format"] ||
-      data?.image["Format"];
-
-  }
-
-  private toggleShow(){
-    this.isShown = ! this.isShown;
-  }
-
-  public getImageGeometry(data: any): String{
-
-    console.log(String(data?.image.pageGeometry["width"] + " x " +
-      data?.image.pageGeometry["height"]));
-
-    return String(data?.image.pageGeometry["width"] + " x " +
-                        data?.image.pageGeometry["height"]);
-
-
-  }
-
-  public getCreationDate(data:any) : Date{
-    return new Date(data?.image.properties["date:created"] ||
-                              data?.image["date:updated"] ||
-                              data?.image.properties["date:create"]);
-  }
-
-  public getModifiedDate(data:any) : Date {
-    return new Date(data?.image.properties["date:created"] ||
-      data?.image.properties["date:modify"] ||
-      data?.image.properties["date:create"]);
-
-  }
-
-
-
-
-
 
 
   private bottomReached$ = fromEvent(window, 'scroll').pipe(
@@ -151,6 +107,7 @@ export class FileDataListComponent implements OnInit {
       }),
       scan<FileData[]>((acc, curr) => {
         acc.push(...curr);
+        this.fileArr.push(...curr);
         return acc;
       }, [])
     );
@@ -161,44 +118,32 @@ export class FileDataListComponent implements OnInit {
     this.filter = [];
   }
 
-  showModal(file: FileData) {
-    this.openModal = true;
-    this.modalImage = file;
-    this.modalMeta$ = this.fileDataService.getMeta(file.id);
-  }
-
   previewUrl(file: FileData, width = 250) {
     return FileData.previewUrl(file, width);
   }
 
-  modalClosed() {
-    this.modalImage = undefined;
-  }
+  showModal(file: FileData) {
+    this.modalImage = file;
+    this.modalMeta$ = this.fileDataService.getMeta(file.id);
+    this.openModal = true;
+    }
+
 
   imgLoad(file: FileData) {
     //this.http.get(this.previewUrl(file, 1080)).subscribe().unsubscribe();
   }
 
-  downloadImage(){
-    const link = document.createElement('a');
-    link.setAttribute('target', '_blank');
-
-    if(this.modalImage?.fullPath !== undefined){
-      link.setAttribute('href',this.modalImage?.fullPath);
-    }
-    if(this.modalImage?.fileName !== undefined) {
-      link.setAttribute('download', this.modalImage?.fileName);
-    }
-    document.body.appendChild(link);
-    console.log(link);
-    link.click();
-    link.remove();
+  hideModal(){
+    this.openModal = false;
+    console.log("MODAL CLOSED");
   }
 
 
+  displayNext(galId: number) {
+    this.showModal(this.fileArr[galId+1]);
+  }
 
-
-
-
-
+  displayPrevious(galId: number) {
+    this.showModal(this.fileArr[galId-1]);
+  }
 }

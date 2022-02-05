@@ -1,0 +1,64 @@
+.column {
+  display: flex;
+  flex-direction: column;
+  flex-basis: 100%;
+  flex: 1;
+}
+
+.right{
+  display:flex;
+  justify-content: right;
+}
+
+.data-key-row:nth-child(odd){
+  background-color: rgba(210, 208, 208, 0.38);
+}
+.data-value-row:nth-child(odd){
+  background-color: rgba(210, 208, 208, 0.38);
+}
+
+.shadedListElement {
+  background-color: rgba(210, 208, 208, 0.38);
+  height: 100px;
+}
+
+.modal-image{
+  max-width: 100%;
+  display: block; margin-left: auto; margin-right: auto;
+
+}
+
+.modal-title{
+  font-size: 20px;
+  overflow-wrap: break-word;
+  word-wrap: break-word;
+  word-break: break-all;
+  word-break: break-word;
+  hyphens: auto;
+  word-wrap: break-word;
+}
+
+.picture-center{
+  position: relative;
+  width: 100%;
+}
+.slider__btn--left {
+  left:0;
+}
+.slider__btn {
+  position: absolute;
+  top: 50%;
+  background-color: #555;
+  color: white;
+  font-size: 16px;
+  padding: 12px 24px;
+  border: none;
+  cursor: pointer;
+  border-radius: 5px;
+}
+
+
+
+.slider__btn--right {
+  right: 0;
+}

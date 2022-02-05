@@ -12,4 +12,21 @@ export class FileDataService extends AbstractEntityService<FileData> {
   getMeta(id: number) {
     return this.get('/' + id + '/meta');
   }
+
+  downloadImage(modalImage? : FileData){
+    const link = document.createElement('a');
+    link.setAttribute('target', '_blank');
+
+    if(modalImage?.fullPath !== undefined){
+      link.setAttribute('href', modalImage?.fullPath); //server
+    }
+    if(modalImage?.fileName !== undefined) {
+      link.setAttribute('download', modalImage?.fileName);
+    }
+    document.body.appendChild(link);
+    console.log(link);
+    link.click();
+    link.remove();
+  }
+
 }
