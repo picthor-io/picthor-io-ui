@@ -3,9 +3,17 @@ import { RouteParams } from '@picthor/abstract/route-params';
 import { FileDataService } from '@picthor/file-data/file-data.service';
 import { FileData } from '@picthor/file-data/file-data';
 import { PagedEntities } from '@picthor/abstract/paged-entities';
-import { fromEvent, Observable, of } from 'rxjs';
-import { concatMap, debounceTime, distinct, filter, map, scan, startWith, tap } from 'rxjs/operators';
-
+import { fromEvent, merge, Observable, of, Subject } from 'rxjs';
+import {
+  concatMap,
+  debounceTime,
+  distinct,
+  filter,
+  map,
+  scan,
+  startWith,
+  tap,
+} from 'rxjs/operators';
 
 export class Options {
   SHOW_ADDED_ON?: boolean;
@@ -15,22 +23,20 @@ export class Options {
 @Component({
   selector: 'app-file-data-list',
   templateUrl: 'file-data-list.component.html',
-  styleUrls: ['file-data-list.component.css']
+  styleUrls: ['file-data-list.component.css'],
 })
 export class FileDataListComponent implements OnInit {
-  openModal = false;
-  modalImage!: FileData;
-  modalMeta$?: Observable<any[]>;
-
   currentPage = 1;
   totalElements = 0;
   totalPages = 0;
   pageSize = 24;
+  pagesLoaded: number[] = [];
   filesPage$: Observable<PagedEntities<FileData>> = of(new PagedEntities<FileData>());
   files$?: Observable<FileData[]>;
+  allFiles: FileData[] = [];
 
-  fileArr: FileData[] = [];
-  indexArr: any;
+  modalImageIndex = 0;
+  modalFileData$: Subject<FileData> = new Subject();
 
   private filterData: { field: string; value: any }[] = [];
 
@@ -45,7 +51,10 @@ export class FileDataListComponent implements OnInit {
     SHOW_INDEX_OFF_TOTAL: true,
   };
 
+  private loadNextPage$ = new Subject<boolean>();
+  private pageLoaded$ = new Subject<boolean>();
 
+  // emmit event when page bottom almost reached
   private bottomReached$ = fromEvent(window, 'scroll').pipe(
     map(() => window.scrollY),
     distinct(),
@@ -66,27 +75,46 @@ export class FileDataListComponent implements OnInit {
     })
   );
 
-  private pageToLoad$ = this.bottomReached$.pipe(
-    filter((reached) => {
-      return reached;
-    }),
-    map((_) => this.currentPage + 1),
-    distinct(),
-    filter((page) => {
-      return page == 1 || page <= this.totalPages;
-    }),
-    tap((page) => {
-      this.currentPage = page;
-    })
+  // listen to loadNextPage and bottomReached events and emit page number to be loaded next
+  private pageToLoad$ = merge(
+    this.loadNextPage$.pipe(
+      map(() => {
+        if (this.currentPage + 1 <= this.totalPages) {
+          return ++this.currentPage;
+        }
+        return this.currentPage;
+      })
+    ),
+    this.bottomReached$.pipe(
+      filter((reached) => {
+        return reached;
+      }),
+      map((_) => this.currentPage + 1),
+      distinct(),
+      filter((page) => {
+        return page == 1 || page <= this.totalPages;
+      }),
+      tap((page) => {
+        this.currentPage = page;
+      })
+    )
   );
 
   constructor(protected fileDataService: FileDataService) {}
 
   @Input()
-  set filter(filter: { field: string; value: any }[]) {
-    this.filterData = filter;
+  set filter(filterData: { field: string; value: any }[]) {
+    this.filterData = filterData;
+
+    // listen on next page number to be loaded
     this.files$ = this.pageToLoad$.pipe(
+      // load first page always
       startWith(1),
+      // filter already loaded pages
+      filter((page) => {
+        return this.pagesLoaded.indexOf(page) == -1;
+      }),
+      // fetch page data from backend
       concatMap((page) => {
         return this.fileDataService
           .getPage(
@@ -99,17 +127,22 @@ export class FileDataListComponent implements OnInit {
           )
           .pipe(
             map((pagedEntities) => {
+              // add this page as loaded
+              this.pagesLoaded.push(page);
               this.totalElements = pagedEntities.pageMetadata.totalElements;
               this.totalPages = pagedEntities.pageMetadata.totalPages;
               return pagedEntities.content;
             })
           );
       }),
+      // append all loaded files into array for later usage in modal paging
       scan<FileData[]>((acc, curr) => {
         acc.push(...curr);
-        this.fileArr.push(...curr);
+        this.allFiles.push(...curr);
         return acc;
-      }, [])
+      }, []),
+      // emit page loaded event
+      tap(() => this.pageLoaded$.next())
     );
   }
 
@@ -118,32 +151,31 @@ export class FileDataListComponent implements OnInit {
     this.filter = [];
   }
 
-  previewUrl(file: FileData, width = 250) {
-    return FileData.previewUrl(file, width);
+  showModal(file: FileData, index: number) {
+    this.modalImageIndex = index;
+    this.modalFileData$.next(file);
   }
 
-  showModal(file: FileData) {
-    this.modalImage = file;
-    this.modalMeta$ = this.fileDataService.getMeta(file.id);
-    this.openModal = true;
+  modalNext() {
+    if (this.allFiles[this.modalImageIndex + 1]) {
+      // if all loaded files contain next image emit it as event for modal
+      this.modalFileData$.next(this.allFiles[++this.modalImageIndex]);
+    } else {
+      // if all loaded files does not contain next image but there are more pages to load
+      // emit loadNextPage event and switch to next image after the next page was loaded
+      if (this.totalElements > this.modalImageIndex) {
+        this.loadNextPage$.next();
+        this.pageLoaded$?.subscribe(() => {
+          this.modalFileData$.next(this.allFiles[++this.modalImageIndex]);
+        });
+      }
     }
-
-
-  imgLoad(file: FileData) {
-    //this.http.get(this.previewUrl(file, 1080)).subscribe().unsubscribe();
   }
 
-  hideModal(){
-    this.openModal = false;
-    console.log("MODAL CLOSED");
-  }
-
-
-  displayNext(galId: number) {
-    this.showModal(this.fileArr[galId+1]);
-  }
-
-  displayPrevious(galId: number) {
-    this.showModal(this.fileArr[galId-1]);
+  modalPrevious() {
+    // if all loaded files contain next image emit it as event for modal
+    if (this.allFiles[this.modalImageIndex - 1]) {
+      this.modalFileData$.next(this.allFiles[--this.modalImageIndex]);
+    }
   }
 }
