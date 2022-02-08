@@ -17,8 +17,8 @@ export class FileDataModalComponent implements OnInit {
   @Input()
   fileArr!: FileData[];
 
-  @ViewChild('imageRotate')
-  rotate: any;
+  @ViewChild('image')
+  image: any;
 
   @Input()
   imageId!: number;
@@ -28,8 +28,11 @@ export class FileDataModalComponent implements OnInit {
 
   @Output()
   showPrevious = new EventEmitter<number>();
+  private swipeCoord!: [number, number];
+  private swipeTime!: number;
 
   loading: boolean = true;
+  mobile = false;
   imgRotation: number = 0;
   state = 'normal';
   isShown = false;
@@ -39,7 +42,8 @@ export class FileDataModalComponent implements OnInit {
 
   ngOnInit(): void {
     this.fileData$.subscribe((fileData) => {
-      this.open();
+      this.isOpen = true;
+      window.screen.width <= 1200? this.mobile = true : this.mobile = false
       this.fileDataService.getMeta(fileData.id).subscribe((meta) => {
         if (meta) {
           this.meta = {
@@ -52,46 +56,12 @@ export class FileDataModalComponent implements OnInit {
     });
   }
 
-  close() {
-    this.isOpen = false;
-  }
-
-  open() {
-    this.isOpen = true;
-  }
-
-  // public getFormat(data: any): String {
-  //   return data?.image['Format'] || data?.image['format'] || data?.image['Format'];
-  // }
-  //
-  // public getImageGeometry(data: any): String {
-  //   return String(data?.image.pageGeometry['width'] + ' x ' + data?.image.pageGeometry['height']);
-  // }
-  //
-  // public getCreationDate(data: any): Date {
-  //   return new Date(
-  //     data?.image.properties['date:created'] || data?.image['date:updated'] || data?.image.properties['date:create']
-  //   );
-  // }
-
-  // public getModifiedDate(data: any): Date {
-  //   return new Date(
-  //     data?.image.properties['date:created'] ||
-  //       data?.image.properties['date:modify'] ||
-  //       data?.image.properties['date:create']
-  //   );
-  // }
-
-  // rotateImg(){
-  //   this.state == 'normal' ? this.state = 'rotated' : this.state= 'normal';
-  // }
-
   downloadImage(modalImage?: FileData) {
     this.fileDataService.downloadImage(modalImage);
   }
 
   rotateImg() {
-    let img = this.rotate.nativeElement;
+    let img = this.image.nativeElement;
     this.imgRotation += 90;
     if (this.imgRotation == 360) {
       this.imgRotation = 0;
@@ -99,16 +69,42 @@ export class FileDataModalComponent implements OnInit {
     img.style.transform = `rotate(${this.imgRotation}deg)`;
   }
 
-  // parseMeta(meta: Observable<any>) {
-  //   meta = this.modalMeta$!;
-  //   meta.subscribe((x) => console.log(x));
-  // }
-
   next() {
     this.showNext.emit();
   }
 
   previous() {
     this.showPrevious.emit();
+  }
+
+  fullscreen(){
+
+    console.log(this.image);
+    if (!document.fullscreenElement) {
+      this.image.nativeElement.requestFullscreen({ navigationUI: "hide" }).catch((err: { message: any; name: any; }) => {
+        alert(`Error attempting to enable full-screen mode: ${err.message} (${err.name})`);
+      });
+    } else {
+      document.exitFullscreen();
+    }
+  }
+
+  swipe(e: TouchEvent, when: string){
+    const coord: [number, number] = [e.changedTouches[0].pageX, e.changedTouches[0].pageY];
+    const time = new Date().getTime();if (when === 'start') {
+      this.swipeCoord = coord;
+      this.swipeTime = time;
+    }else if (when === 'end') {
+      const direction = [coord[0] - this.swipeCoord[0], coord[1] - this.swipeCoord[1]];
+      const duration = time - this.swipeTime;if (duration < 1000
+        && Math.abs(direction[0]) > 30
+        && Math.abs(direction[0]) > Math.abs(direction[1] * 3)) {
+        if (direction[0] < 0) {
+          this.next()
+        } else {
+          this.previous();
+        }
+      }
+    }
   }
 }

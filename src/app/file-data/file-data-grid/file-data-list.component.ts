@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnChanges, OnInit } from '@angular/core';
 import { RouteParams } from '@picthor/abstract/route-params';
 import { FileDataService } from '@picthor/file-data/file-data.service';
 import { FileData } from '@picthor/file-data/file-data';
@@ -25,14 +25,14 @@ export class Options {
   templateUrl: 'file-data-list.component.html',
   styleUrls: ['file-data-list.component.css'],
 })
-export class FileDataListComponent implements OnInit {
+export class FileDataListComponent implements OnInit, OnChanges {
   currentPage = 1;
   totalElements = 0;
   totalPages = 0;
   pageSize = 24;
   pagesLoaded: number[] = [];
   filesPage$: Observable<PagedEntities<FileData>> = of(new PagedEntities<FileData>());
-  files$?: Observable<FileData[]>;
+  files$!: Observable<FileData[]>;
   allFiles: FileData[] = [];
 
   modalImageIndex = 0;
@@ -111,9 +111,9 @@ export class FileDataListComponent implements OnInit {
       // load first page always
       startWith(1),
       // filter already loaded pages
-      filter((page) => {
-        return this.pagesLoaded.indexOf(page) == -1;
-      }),
+      // filter((page) => {
+      //   return this.pagesLoaded.indexOf(page) == -1;
+      // }),
       // fetch page data from backend
       concatMap((page) => {
         return this.fileDataService
@@ -149,6 +149,10 @@ export class FileDataListComponent implements OnInit {
   ngOnInit(): void {
     this.options = Object.assign(this.defaultOptions, this.options);
     this.filter = [];
+  }
+
+  ngOnChanges(){
+    this.allFiles = [];
   }
 
   showModal(file: FileData, index: number) {

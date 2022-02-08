@@ -1,35 +1,44 @@
 <clr-modal
-  (clrModalOpenChange)="close()"
+  (clrModalOpenChange)="this.isOpen=false"
   [(clrModalOpen)]="isOpen"
   [clrModalSize]="'xl'"
   [clrModalStaticBackdrop]="false"
 >
   <h3 class="modal-title" *ngIf="fileData$ | async as fileData">{{ fileData.fileName }}</h3>
 
-  <div class="modal-body" *ngIf="fileData$ | async as fileData">
+  <div
+    class="modal-body" *ngIf="fileData$ | async as fileData"
+    (touchstart)="swipe($event, 'start')"
+    (touchend)="swipe($event, 'end')">
     <div class="clr-row">
-      <div class="clr-col-xl-7 clr-col-sm-12">
+      <div class="clr-col-xl-9 clr-col-sm-12">
         <div class="picture-center">
-          <div #arrL class="slider__btn slider__btn--left" (click)="previous()">
-            <cds-icon shape="angle" direction="left"></cds-icon>
+
+          <div class='slider__btn'
+               [ngClass]="mobile? 'mobile_slider__btn--left': 'laptop_slider__btn--left'"
+               (click)="previous()">
+            <cds-icon shape="angle" direction="left" ></cds-icon>
+          </div>
+          <div class='slider__btn'
+               [ngClass]="mobile? 'mobile_slider__btn--right': 'laptop_slider__btn--right'"
+               (click)="next()">
+            <cds-icon shape="angle" direction="right" ></cds-icon>
           </div>
           <clr-spinner *ngIf="loading"></clr-spinner>
           <img
-            #imageRotate
+            #image
             class="modal-image"
             *ngIf="fileData"
             [src]="fileData | fileDataPreview: 1080"
             alt="{{ fileData.fileName }}"
             [hidden]="loading"
             (load)="loading = false"
+            (click)='fullscreen()'
           />
-          <div #arrR class="slider__btn slider__btn--right" (click)="next()">
-            <cds-icon shape="angle" direction="right"></cds-icon>
-          </div>
         </div>
       </div>
-      <div class="clr-col-xl-5 clr-col-sm-12">
-        <div>
+      <div class="clr-col-xl-3 clr-col-sm-12">
+        <!--<div>
           <button (click)="downloadImage(fileData)" class="btn btn-info-outline" style="float: right">
             <cds-icon shape="download"></cds-icon>
           </button>
@@ -38,7 +47,7 @@
           <button (click)="rotateImg()" class="btn btn-info-outline" style="float: right">
             <cds-icon shape="refresh"></cds-icon>
           </button>
-        </div>
+        </div> -->
         <div class="row">
           <table *ngIf="meta" class="table table-compact table-noborder">
             <caption>
@@ -90,5 +99,6 @@
         </div>
       </div>
     </div>
+    <div class='closeArea' *ngIf='mobile' (click)='this.isOpen=false'></div>
   </div>
 </clr-modal>

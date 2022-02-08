@@ -21,7 +21,13 @@ import { tap } from 'rxjs/operators';
 import { Observable } from 'rxjs';
 import { environment } from '../environments/environment';
 import { LazyLoadImageModule } from 'ng-lazyload-image';
-import { ClrModalModule, ClrProgressBarModule, ClrSignpostModule, ClrSpinnerModule } from '@clr/angular';
+import {
+  ClrDropdownModule,
+  ClrModalModule,
+  ClrProgressBarModule,
+  ClrSignpostModule,
+  ClrSpinnerModule
+} from '@clr/angular';
 import { FileDataModalComponent } from '@picthor/file-data/file-data-modal/file-data-modal.component';
 
 function initializeAppEnv(httpClient: HttpClient): () => Observable<any> {
@@ -58,7 +64,8 @@ function initializeAppEnv(httpClient: HttpClient): () => Observable<any> {
     ClrModalModule,
     ClrSignpostModule,
     LazyLoadImageModule,
-    ClrSpinnerModule
+    ClrSpinnerModule,
+    ClrDropdownModule
 
   ],
   providers: [
