@@ -43,3 +43,8 @@
   width: 100%;
 }
 
+.modal-image{
+  animation: rotation 0.5s;
+}
+
+

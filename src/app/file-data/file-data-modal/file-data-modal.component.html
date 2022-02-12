@@ -1,0 +1,102 @@
+<clr-modal
+  (clrModalOpenChange)="this.isOpen = false"
+  [(clrModalOpen)]="isOpen"
+  [clrModalSize]="'xl'"
+  [clrModalStaticBackdrop]="false"
+>
+  <h3 class="modal-title" *ngIf="fileData">{{ fileData.fileName }}</h3>
+
+  <div class="modal-body" (touchstart)="swipe($event, 'start')" (touchend)="swipe($event, 'end')">
+    <div class="clr-row" *ngIf="fileData">
+      <div class="clr-col-xl-9 clr-col-sm-12">
+        <div class="picture-center">
+          <div
+            class="slider__btn"
+            [ngClass]="mobile ? 'mobile_slider__btn--left' : 'laptop_slider__btn--left'"
+            (click)="previous()"
+          >
+            <cds-icon shape="angle" direction="left"></cds-icon>
+          </div>
+          <div
+            class="slider__btn"
+            [ngClass]="mobile ? 'mobile_slider__btn--right' : 'laptop_slider__btn--right'"
+            (click)="next()"
+          >
+            <cds-icon shape="angle" direction="right"></cds-icon>
+          </div>
+          <clr-spinner *ngIf="loading"></clr-spinner>
+          <img
+            *ngIf="thumbPath"
+            class="modal-image"
+            [src]="thumbPath"
+            alt="{{ fileData.fileName }}"
+            (load)="loading = false"
+            (click)="fullscreen()"
+          />
+        </div>
+      </div>
+      <div class="clr-col-xl-3 clr-col-sm-12">
+        <div>
+          <button (click)="downloadImage(fileData)" class="btn btn-info-outline" style="float: right">
+            <cds-icon shape="download"></cds-icon>
+          </button>
+        </div>
+        <!--        <div style="margin-top: 0">-->
+        <!--          <button (click)="rotateImg()" class="btn btn-info-outline" style="float: right">-->
+        <!--            <cds-icon shape="refresh"></cds-icon>-->
+        <!--          </button>-->
+        <!--        </div> -->
+        <div class="row">
+          <table *ngIf="meta" class="table table-compact table-noborder">
+            <caption>
+              {{
+                fileData?.fileName
+              }}
+            </caption>
+            <thead>
+              <tr>
+                <th class="right">Information</th>
+                <th class="left" (click)="isShown = !isShown" style="cursor: pointer">
+                  <a *ngIf="!isShown"> Show More</a>
+                  <a *ngIf="isShown"> Show Less</a>
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td class="right">Format</td>
+                <td class="left">{{ meta.format }}</td>
+              </tr>
+              <tr>
+                <td class="right">File Size</td>
+                <td class="left">{{ fileData?.sizeBytes | appPrettyBytes }}</td>
+              </tr>
+              <tr>
+                <td class="right">Resolution</td>
+                <td class="left">{{ meta.geometry }}</td>
+              </tr>
+              <tr>
+                <td class="right">Date Created</td>
+                <td class="left">{{ fileData?.createdAt | appDate }}</td>
+              </tr>
+              <tr>
+                <td class="right">Date Modified</td>
+                <td class="left">{{ meta.modifiedDate | appDate }}</td>
+              </tr>
+
+              <tr *ngIf="isShown">
+                <td class="right">Date Created</td>
+                <td class="left">{{ fileData?.createdAt }}</td>
+              </tr>
+              <tr *ngIf="isShown">
+                <td class="right">Date Modified</td>
+                <td class="left">{{ meta.modifiedDate | appDate }}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+    <div class="closeArea" *ngIf="mobile" (click)="close()"></div>
+  </div>
+</clr-modal>

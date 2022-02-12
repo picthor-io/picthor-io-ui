@@ -1,0 +1,32 @@
+<div class="clr-row" *ngIf="files$">
+  <div
+    *ngFor="let fileData of files$ | async; let i = index"
+    class="clr-align-self-start clr-col-xl-2 clr-col-lg-3 clr-col-md-6 clr-col-sm-12"
+  >
+    <div (click)="showModal(fileData, i)" class="card clickable">
+      <div class="card-header">
+        <div class="p5" style="margin-top: 0">{{ fileData.fileName }}</div>
+      </div>
+      <div class="card-img">
+        <img
+          class="file-data-img"
+          loading="lazy"
+          alt="{{ fileData.fileName }}"
+          src="{{ fileData | fileDataPreview }}"
+        />
+      </div>
+      <div class="card-block">
+        <div class="card-text file-data-text">
+          <div class="p5" *ngIf="options.SHOW_ADDED_ON">Added on: {{ fileData.createdAt | appDate }}</div>
+          <div class="p5" *ngIf="options.SHOW_INDEX_OFF_TOTAL">{{ i + 1 }} / {{ totalElements }}</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<app-file-data-modal
+  [fileData$]="modalFileData$"
+  (showNext)='modalNext()'
+  (showPrevious)='modalPrevious()'>
+</app-file-data-modal>

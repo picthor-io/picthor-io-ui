@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { ErrorPageComponent } from '@picthor/layout/error-page/error-page.component';
 import { LayoutComponent } from '@picthor/layout/layout.component';
-import { FileDataListComponent } from '@picthor/file-data/components/file-data-list.component';
+import { FileDataListComponent } from '@picthor/file-data/file-data-grid/file-data-list.component';
 import { DirectoryComponent } from '@picthor/directory/components/directory.component';
 import { HomeComponent } from '@picthor/home/home.component';
 import { RootsComponent } from '@picthor/roots/roots.component';

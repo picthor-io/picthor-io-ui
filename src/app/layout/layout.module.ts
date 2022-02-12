@@ -7,7 +7,7 @@ import { NavbarComponent } from '@picthor/layout/navbar/navbar.component';
 import { FooterComponent } from '@picthor/layout/footer/footer.component';
 import { ErrorPageComponent } from '@picthor/layout/error-page/error-page.component';
 import { SidenavComponent } from '@picthor/layout/sidenav/sidenav.component';
-import { ClrNavigationModule } from '@clr/angular';
+import { ClrDropdownModule, ClrNavigationModule } from '@clr/angular';
 import {
   arrowIcon,
   boatIcon,
@@ -16,16 +16,18 @@ import {
   fileIcon,
   folderIcon,
   homeIcon,
-  storageIcon
+  storageIcon,
+  refreshIcon, carIcon, cogIcon, filterIcon, angleIcon
 } from '@cds/core/icon';
 import { CdsIconModule } from '@cds/angular';
 
 @NgModule({
-  imports: [CommonModule, FormsModule, ReactiveFormsModule, RouterModule, ClrNavigationModule, CdsIconModule],
+  imports: [CommonModule, FormsModule, ReactiveFormsModule, RouterModule, ClrNavigationModule, CdsIconModule, ClrDropdownModule],
   declarations: [LayoutComponent, NavbarComponent, FooterComponent, ErrorPageComponent, SidenavComponent],
 })
 export class LayoutModule {
   constructor() {
-    ClarityIcons.addIcons(folderIcon, homeIcon, boatIcon, arrowIcon, fileIcon, storageIcon, downloadIcon);
+    ClarityIcons.addIcons(folderIcon, homeIcon, boatIcon, arrowIcon, fileIcon, storageIcon, downloadIcon, refreshIcon,
+      cogIcon, carIcon, filterIcon, angleIcon);
   }
 }
