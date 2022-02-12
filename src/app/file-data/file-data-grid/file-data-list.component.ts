@@ -25,7 +25,7 @@ export class Options {
   templateUrl: 'file-data-list.component.html',
   styleUrls: ['file-data-list.component.css'],
 })
-export class FileDataListComponent implements OnInit, OnChanges {
+export class FileDataListComponent implements OnInit {
   currentPage = 1;
   totalElements = 0;
   totalPages = 0;
@@ -104,6 +104,7 @@ export class FileDataListComponent implements OnInit, OnChanges {
 
   @Input()
   set filter(filterData: { field: string; value: any }[]) {
+
     this.filterData = filterData;
 
     // listen on next page number to be loaded
@@ -148,11 +149,6 @@ export class FileDataListComponent implements OnInit, OnChanges {
 
   ngOnInit(): void {
     this.options = Object.assign(this.defaultOptions, this.options);
-    this.filter = [];
-  }
-
-  ngOnChanges(){
-    this.allFiles = [];
   }
 
   showModal(file: FileData, index: number) {
