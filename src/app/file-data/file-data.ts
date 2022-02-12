@@ -18,7 +18,7 @@ export class FileData extends AbstractEntity {
   rootDirectoryId!: number;
   directoryId!: number;
 
-  static previewUrl(file: FileData, size = 250) {
+  static previewUrl(file: FileData, size: number | string = 250) {
     return environment.apiHost + '/thumbs/by-id/' + size + '/' + file.id + '.jpg';
   }
 

@@ -38,13 +38,17 @@ export class FileDataModalComponent implements OnInit {
   state = 'normal';
   isShown = false;
   meta?: any;
+  fileData?: FileData;
+  thumbPath?: string;
 
   constructor(protected fileDataService: FileDataService) {}
 
   ngOnInit(): void {
+    window.screen.width <= 1200 ? (this.mobile = true) : (this.mobile = false);
     this.fileData$.subscribe((fileData) => {
+      this.fileData = fileData;
+      this.fileDataService.preloadThumb(this.fileData, 1080).subscribe((path) => (this.thumbPath = path));
       this.isOpen = true;
-      window.screen.width <= 1200? this.mobile = true : this.mobile = false
       this.fileDataService.getMeta(fileData.id).subscribe((meta) => {
         if (meta) {
           this.meta = {
@@ -71,18 +75,29 @@ export class FileDataModalComponent implements OnInit {
   }
 
   next() {
+    this.loading = true;
+    this.fileData = undefined;
+    this.thumbPath = undefined;
     this.showNext.emit();
   }
 
   previous() {
+    this.loading = true;
+    this.fileData = undefined;
+    this.thumbPath = undefined;
     this.showPrevious.emit();
   }
 
-  fullscreen(){
+  close() {
+    this.isOpen = false;
+    this.fileData = undefined;
+    this.thumbPath = undefined;
+  }
 
+  fullscreen() {
     console.log(this.image);
     if (!document.fullscreenElement) {
-      this.image.nativeElement.requestFullscreen({ navigationUI: "hide" }).catch((err: { message: any; name: any; }) => {
+      this.image.nativeElement.requestFullscreen({ navigationUI: 'hide' }).catch((err: { message: any; name: any }) => {
         alert(`Error attempting to enable full-screen mode: ${err.message} (${err.name})`);
       });
     } else {
@@ -90,18 +105,18 @@ export class FileDataModalComponent implements OnInit {
     }
   }
 
-  swipe(e: TouchEvent, when: string){
+  swipe(e: TouchEvent, when: string) {
     const coord: [number, number] = [e.changedTouches[0].pageX, e.changedTouches[0].pageY];
-    const time = new Date().getTime();if (when === 'start') {
+    const time = new Date().getTime();
+    if (when === 'start') {
       this.swipeCoord = coord;
       this.swipeTime = time;
-    }else if (when === 'end') {
+    } else if (when === 'end') {
       const direction = [coord[0] - this.swipeCoord[0], coord[1] - this.swipeCoord[1]];
-      const duration = time - this.swipeTime;if (duration < 1000
-        && Math.abs(direction[0]) > 30
-        && Math.abs(direction[0]) > Math.abs(direction[1] * 3)) {
+      const duration = time - this.swipeTime;
+      if (duration < 1000 && Math.abs(direction[0]) > 30 && Math.abs(direction[0]) > Math.abs(direction[1] * 3)) {
         if (direction[0] < 0) {
-          this.next()
+          this.next();
         } else {
           this.previous();
         }
