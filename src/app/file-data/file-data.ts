@@ -21,12 +21,8 @@ export class FileData extends AbstractEntity {
   static previewUrl(file: FileData, size = 250) {
     return environment.apiHost + '/thumbs/by-id/' + size + '/' + file.id + '.jpg';
   }
-  //
-  // static getModalImage(file: FileData): Image {
-  //   return new Image(
-  //     file.id,
-  //     { img: FileData.previewUrl(file, 1350), title: file.fileName },
-  //     { img: FileData.previewUrl(file), title: file.fileName }
-  //   );
-  // }
+
+  static originalFileUrl(file: FileData) {
+    return environment.apiHost + '/originals/by-id/' + file.id + '/' + file.fileName;
+  }
 }

@@ -2,6 +2,7 @@ import { Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angu
 import { FileData } from '@picthor/file-data/file-data';
 import { Observable, of } from 'rxjs';
 import { FileDataService } from '@picthor/file-data/file-data.service';
+import * as FileSaver from 'file-saver';
 
 @Component({
   selector: 'app-file-data-modal',
@@ -56,8 +57,8 @@ export class FileDataModalComponent implements OnInit {
     });
   }
 
-  downloadImage(modalImage?: FileData) {
-    this.fileDataService.downloadImage(modalImage);
+  downloadImage(modalImage: FileData) {
+    FileSaver.saveAs(FileData.originalFileUrl(modalImage), modalImage?.fileName);
   }
 
   rotateImg() {
