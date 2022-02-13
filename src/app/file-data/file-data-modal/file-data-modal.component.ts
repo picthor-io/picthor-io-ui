@@ -21,6 +21,9 @@ export class FileDataModalComponent implements OnInit {
   @ViewChild('image')
   image: any;
 
+  @ViewChild('container')
+  container: any;
+
   @Input()
   imageId!: number;
 
@@ -40,6 +43,8 @@ export class FileDataModalComponent implements OnInit {
   meta?: any;
   fileData?: FileData;
   thumbPath?: string;
+
+  isFull?: boolean;
 
   constructor(protected fileDataService: FileDataService) {}
 
@@ -74,34 +79,57 @@ export class FileDataModalComponent implements OnInit {
     img.style.transform = `rotate(${this.imgRotation}deg)`;
   }
 
-  next() {
+  switchImg(){
     this.loading = true;
     this.fileData = undefined;
     this.thumbPath = undefined;
-    this.showNext.emit();
-  }
-
-  previous() {
-    this.loading = true;
-    this.fileData = undefined;
-    this.thumbPath = undefined;
-    this.showPrevious.emit();
   }
 
   close() {
     this.isOpen = false;
-    this.fileData = undefined;
-    this.thumbPath = undefined;
+    this.switchImg()
+  }
+
+  next() {
+    this.switchImg();
+    this.showNext.emit();
+  }
+
+  previous() {
+    this.switchImg();
+    this.showPrevious.emit();
   }
 
   fullscreen() {
-    console.log(this.image);
-    if (!document.fullscreenElement) {
-      this.image.nativeElement.requestFullscreen({ navigationUI: 'hide' }).catch((err: { message: any; name: any }) => {
-        alert(`Error attempting to enable full-screen mode: ${err.message} (${err.name})`);
-      });
-    } else {
-      document.exitFullscreen();
+    if(!this.mobile) {
+      if (!this.isFull) {
+        this.image.nativeElement.className = 'laptop_fullscreen';
+        this.isFull = true;
+      } else {
+        this.image.nativeElement.classList.remove('laptop_fullscreen');
+        this.image.nativeElement.classList.add('modal-image');
+        this.isFull = false;
+      }
+    }
+    else{
+      if (!document.fullscreenElement) {
+        this.image.nativeElement.requestFullscreen({ navigationUI: 'hide' }).catch((err: { message: any; name: any }) => {
+          alert(`Error attempting to enable full-screen mode: ${err.message} (${err.name})`);
+        });
+      } else {
+        document.exitFullscreen();
+      }
+      // if (!this.isFull) {
+      //   console.log(this.image.nativeElement.className);
+      //   this.image.nativeElement.className = 'mobile_fullscreen';
+      //   this.isFull = true;
+      //   console.log(this.image.nativeElement.className);
+      // } else {
+      //   this.image.nativeElement.classList.remove('mobile_fullscreen');
+      //   this.image.nativeElement.classList.add('modal-image');
+      //   this.isFull = false;
+      // }
+
     }
   }
 

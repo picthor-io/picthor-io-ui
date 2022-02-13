@@ -47,6 +47,10 @@
   width: 100%;
 }
 
+.picture-center:hover{
+  cursor: zoom-in;
+}
+
 .slider__btn {
   color: #787878;
   background-color: rgba(0,0,0,0.07);
@@ -100,4 +104,32 @@
   right:60px;
   bottom: 60px;
 }
+
+.laptop_fullscreen{
+  position: fixed;
+  left: 0;
+  right: 0;
+  margin-left: auto;
+  margin-right: auto;
+  top:20px;
+  height:95%;
+  width: auto;
+  background-color: black;
+}
+
+.laptop_fullscreen:hover{
+  cursor: zoom-out;
+}
+
+/*.mobile_fullscreen{*/
+/*  position: fixed;*/
+/*  top: 0;*/
+/*  bottom: 0;*/
+/*  left:0;*/
+/*  right:0;*/
+/*  margin: auto;*/
+/*  width:95%;*/
+/*  height: auto;*/
+/*  background-color: black;*/
+/*}*/
 

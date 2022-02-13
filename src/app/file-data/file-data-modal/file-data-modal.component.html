@@ -25,14 +25,17 @@
             <cds-icon shape="angle" direction="right"></cds-icon>
           </div>
           <clr-spinner *ngIf="loading"></clr-spinner>
-          <img
-            *ngIf="thumbPath"
-            class="modal-image"
-            [src]="thumbPath"
-            alt="{{ fileData.fileName }}"
-            (load)="loading = false"
-            (click)="fullscreen()"
-          />
+          <div #container>
+            <img
+              #image
+              *ngIf="thumbPath"
+              class="modal-image"
+              [src]="thumbPath"
+              alt="{{ fileData.fileName }}"
+              (load)="loading = false"
+              (click)="fullscreen()"
+            />
+          </div>
         </div>
       </div>
       <div class="clr-col-xl-3 clr-col-sm-12">

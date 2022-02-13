@@ -8,12 +8,12 @@
   <div class="header-actions">
     <clr-dropdown>
       <button class="nav-icon" clrDropdownTrigger aria-label="toggle settings menu">
-        <clr-icon shape="filter"></clr-icon>
+        <clr-icon shape="filter" style='color: red; background-color: red'></clr-icon>
       </button>
       <clr-dropdown-menu *clrIfOpen clrPosition="bottom-right">
-        <a href="..." clrDropdownItem>About</a>
-        <a href="..." clrDropdownItem>Preferences</a>
-        <a href="..." clrDropdownItem>Log out</a>
+        <a (click)='setSort("date")' clrDropdownItem>Date</a>
+        <a (click)='setSort("size_bytes")' clrDropdownItem>Size</a>
+        <a (click)='setSort("extension")' clrDropdownItem>Extension</a>
       </clr-dropdown-menu>
     </clr-dropdown>
   </div>
