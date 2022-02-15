@@ -4,7 +4,7 @@
     <a routerLink="/directories/{{ directory.parentId }}">
       {{ directory.parent?.label || directory.parent?.name || directory.parent?.id }}
     </a>
-    <span>/</span>
+    <span style="color: #eaedf0">/</span>
   </ng-container>
 </ng-template>
 
@@ -15,10 +15,9 @@
     </cds-button>
     <cds-divider orientation="vertical"></cds-divider>
     <ng-container *ngTemplateOutlet="recursiveParentTmpl; context: { directory: directory }"></ng-container>
-    <span>
+    <span style="color: #eaedf0">
       {{ directory?.label || directory?.name || directory?.id }}
     </span>
-    <cds-divider></cds-divider>
   </div>
 
   <div class="clr-row" *ngIf="children$ | async as children">
@@ -30,11 +29,11 @@
               <cds-icon size="xl" [status]="'info'" [solid]="true" shape="folder"></cds-icon>
             </div>
             <div class="card-media-description">
-              <div class="clr-row" style="height: 100%">
-                <div class="clr-col-12" style="word-break: break-all;">{{ child.label || child.name || child.id }}</div>
+              <div class="clr-row directory-card-row">
+                <div class="clr-col-12"><p class="p4 directory-card-title">{{ child.label || child.name || child.id }}</p></div>
                 <div class="clr-col-12">
-                  <span class="p5" style="vertical-align: text-top; margin-left: 2px"
-                    >{{ child.stats.totalDirsNum }} | {{ child.stats.totalFilesNum }} |
+                  <span class="p5 directory-card-stats"
+                  >{{ child.stats.totalDirsNum }} | {{ child.stats.totalFilesNum }} |
                     {{ child.stats.totalSizeBytes | appPrettyBytes }}</span
                   >
                 </div>
@@ -45,7 +44,6 @@
       </div>
     </div>
   </div>
-
 
   <app-file-data-list
     [sort]="[{ field: 'created_at', dir: 'DESC' }]"

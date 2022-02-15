@@ -1,0 +1,494 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   width="210mm"
+   height="297mm"
+   viewBox="0 0 210 297"
+   version="1.1"
+   id="svg703"
+   inkscape:version="1.1.2 (0a00cf5339, 2022-02-04)"
+   sodipodi:docname="logo.svg"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <sodipodi:namedview
+     id="namedview705"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="0"
+     inkscape:document-units="mm"
+     showgrid="false"
+     inkscape:zoom="0.73228114"
+     inkscape:cx="204.15656"
+     inkscape:cy="560.57705"
+     inkscape:window-width="1920"
+     inkscape:window-height="1005"
+     inkscape:window-x="2092"
+     inkscape:window-y="0"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="layer1" />
+  <defs
+     id="defs700">
+    <clipPath
+       clipPathUnits="userSpaceOnUse"
+       id="clipPath20">
+      <path
+         d="m 73.148,189.707 h 67.66 V 235 h -67.66 z"
+         id="path18" />
+    </clipPath>
+    <clipPath
+       clipPathUnits="userSpaceOnUse"
+       id="clipPath30">
+      <path
+         d="M 73.148,189.707 H 109 v 70.59 H 73.148 Z"
+         id="path28" />
+    </clipPath>
+    <clipPath
+       clipPathUnits="userSpaceOnUse"
+       id="clipPath40">
+      <path
+         d="M 73.148,189.707 H 109 V 235 H 73.148 Z"
+         id="path38" />
+    </clipPath>
+    <clipPath
+       clipPathUnits="userSpaceOnUse"
+       id="clipPath50">
+      <path
+         d="m 140.809,189.707 h 35.812 v 70.59 h -35.812 z"
+         id="path48" />
+    </clipPath>
+    <clipPath
+       clipPathUnits="userSpaceOnUse"
+       id="clipPath60">
+      <path
+         d="m 140.809,189.707 h 35.812 V 207 h -35.812 z"
+         id="path58" />
+    </clipPath>
+    <clipPath
+       clipPathUnits="userSpaceOnUse"
+       id="clipPath70">
+      <path
+         d="M 176.621,199 H 212 v 51 h -35.379 z"
+         id="path68" />
+    </clipPath>
+    <clipPath
+       clipPathUnits="userSpaceOnUse"
+       id="clipPath80">
+      <path
+         d="m 186,189.707 h 50.957 V 226 H 186 Z"
+         id="path78" />
+    </clipPath>
+    <clipPath
+       clipPathUnits="userSpaceOnUse"
+       id="clipPath90">
+      <path
+         d="m 186,225 h 50.957 v 35.297 H 186 Z"
+         id="path88" />
+    </clipPath>
+    <clipPath
+       clipPathUnits="userSpaceOnUse"
+       id="clipPath100">
+      <path
+         d="m 236.957,189.707 h 69.691 V 207 h -69.691 z"
+         id="path98" />
+    </clipPath>
+    <clipPath
+       clipPathUnits="userSpaceOnUse"
+       id="clipPath110">
+      <path
+         d="m 253,189.707 h 37 v 70.59 h -37 z"
+         id="path108" />
+    </clipPath>
+    <clipPath
+       clipPathUnits="userSpaceOnUse"
+       id="clipPath120">
+      <path
+         d="m 253,189.707 h 37 V 207 h -37 z"
+         id="path118" />
+    </clipPath>
+    <clipPath
+       clipPathUnits="userSpaceOnUse"
+       id="clipPath130">
+      <path
+         d="M 306.652,189.707 H 343 v 70.59 h -36.348 z"
+         id="path128" />
+    </clipPath>
+    <clipPath
+       clipPathUnits="userSpaceOnUse"
+       id="clipPath140">
+      <path
+         d="M 306.652,216 H 343 v 18 h -36.348 z"
+         id="path138" />
+    </clipPath>
+    <clipPath
+       clipPathUnits="userSpaceOnUse"
+       id="clipPath154">
+      <path
+         d="m 350,189.707 h 35.848 v 70.59 H 350 Z"
+         id="path152" />
+    </clipPath>
+    <clipPath
+       clipPathUnits="userSpaceOnUse"
+       id="clipPath164">
+      <path
+         d="m 350,216 h 35.848 v 18 H 350 Z"
+         id="path162" />
+    </clipPath>
+    <clipPath
+       clipPathUnits="userSpaceOnUse"
+       id="clipPath174">
+      <path
+         d="m 385.844,189.707 h 70.59 v 70.59 h -70.59 z"
+         id="path172" />
+    </clipPath>
+    <clipPath
+       clipPathUnits="userSpaceOnUse"
+       id="clipPath184">
+      <path
+         d="m 396,189.707 h 60.434 V 251 H 396 Z"
+         id="path182" />
+    </clipPath>
+    <clipPath
+       clipPathUnits="userSpaceOnUse"
+       id="clipPath194">
+      <path
+         d="m 456.434,189.707 h 70.418 v 70.59 h -70.418 z"
+         id="path192" />
+    </clipPath>
+    <clipPath
+       clipPathUnits="userSpaceOnUse"
+       id="clipPath204">
+      <path
+         d="M 456.434,189.707 H 524 V 234 h -67.566 z"
+         id="path202" />
+    </clipPath>
+    <clipPath
+       clipPathUnits="userSpaceOnUse"
+       id="clipPath214">
+      <path
+         d="M 456.434,189.707 H 501 V 234 h -44.566 z"
+         id="path212" />
+    </clipPath>
+  </defs>
+  <g
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer"
+     id="layer1">
+    <g
+       id="g14"
+       transform="matrix(0.35277777,0,0,0.35277777,3.0122958,55.908255)"
+       inkscape:export-filename="/home/realcnbs/Projects/personal/picthor.io/picthor-io-ui/src/assets/favicon.ico"
+       inkscape:export-xdpi="16.320513"
+       inkscape:export-ydpi="16.320513">
+      <g
+         id="g16"
+         clip-path="url(#clipPath20)">
+        <path
+           d="m 73.148,189.707 h 45.454 c 12.253,0.027 22.179,9.953 22.207,22.207 -0.028,12.254 -9.954,22.18 -22.207,22.211 H 73.148 Z"
+           style="fill:#c71343;fill-opacity:1;fill-rule:nonzero;stroke:none"
+           id="path22" />
+      </g>
+    </g>
+    <g
+       id="g24"
+       transform="matrix(0.35277777,0,0,0.35277777,3.0122958,55.908255)"
+       inkscape:export-filename="/home/realcnbs/Projects/personal/picthor.io/picthor-io-ui/src/assets/favicon.ico"
+       inkscape:export-xdpi="16.320513"
+       inkscape:export-ydpi="16.320513">
+      <g
+         id="g26"
+         clip-path="url(#clipPath30)">
+        <path
+           d="m 73.148,189.707 h 35.812 v 70.586 H 73.148 Z"
+           style="fill:#4195d2;fill-opacity:1;fill-rule:nonzero;stroke:none"
+           id="path32" />
+      </g>
+    </g>
+    <g
+       id="g34"
+       transform="matrix(0.35277777,0,0,0.35277777,3.0122958,55.908255)"
+       inkscape:export-filename="/home/realcnbs/Projects/personal/picthor.io/picthor-io-ui/src/assets/favicon.ico"
+       inkscape:export-xdpi="16.320513"
+       inkscape:export-ydpi="16.320513">
+      <g
+         id="g36"
+         clip-path="url(#clipPath40)">
+        <path
+           d="m 73.148,189.707 h 35.641 v 44.418 H 73.148 Z"
+           style="fill:#008296;fill-opacity:1;fill-rule:nonzero;stroke:none"
+           id="path42" />
+      </g>
+    </g>
+    <g
+       id="g44"
+       transform="matrix(0.35277777,0,0,0.35277777,3.0122958,55.908255)"
+       inkscape:export-filename="/home/realcnbs/Projects/personal/picthor.io/picthor-io-ui/src/assets/g208.png"
+       inkscape:export-xdpi="2666.6699"
+       inkscape:export-ydpi="2666.6699">
+      <g
+         id="g46"
+         clip-path="url(#clipPath50)">
+        <path
+           d="m 140.809,189.707 h 35.812 v 70.586 h -35.812 z"
+           style="fill:#eb6700;fill-opacity:1;fill-rule:nonzero;stroke:none"
+           id="path52" />
+      </g>
+    </g>
+    <g
+       id="g54"
+       transform="matrix(0.35277777,0,0,0.35277777,3.0122958,55.908255)"
+       inkscape:export-filename="/home/realcnbs/Projects/personal/picthor.io/picthor-io-ui/src/assets/g208.png"
+       inkscape:export-xdpi="2666.6699"
+       inkscape:export-ydpi="2666.6699">
+      <g
+         id="g56"
+         clip-path="url(#clipPath60)">
+        <path
+           d="m 140.809,189.707 h 35.641 v 16.355 h -35.641 z"
+           style="fill:#76bd4e;fill-opacity:1;fill-rule:nonzero;stroke:none"
+           id="path62" />
+      </g>
+    </g>
+    <g
+       id="g64"
+       transform="matrix(0.35277777,0,0,0.35277777,3.0122958,55.908255)"
+       inkscape:export-filename="/home/realcnbs/Projects/personal/picthor.io/picthor-io-ui/src/assets/g208.png"
+       inkscape:export-xdpi="2666.6699"
+       inkscape:export-ydpi="2666.6699">
+      <g
+         id="g66"
+         clip-path="url(#clipPath70)">
+        <path
+           d="m 186.895,249.867 c -13.688,-13.816 -13.688,-36.078 0,-49.894 l 25.043,25.043 z"
+           style="fill:#00234b;fill-opacity:1;fill-rule:nonzero;stroke:none"
+           id="path72" />
+      </g>
+    </g>
+    <g
+       id="g74"
+       transform="matrix(0.35277777,0,0,0.35277777,3.0122958,55.908255)"
+       inkscape:export-filename="/home/realcnbs/Projects/personal/picthor.io/picthor-io-ui/src/assets/g208.png"
+       inkscape:export-xdpi="2666.6699"
+       inkscape:export-ydpi="2666.6699">
+      <g
+         id="g76"
+         clip-path="url(#clipPath80)">
+        <path
+           d="m 211.938,189.707 c 9.378,-0.055 18.386,3.645 25.027,10.266 l -25.027,25.043 -25.043,-25.043 c 6.644,-6.629 15.66,-10.325 25.043,-10.266 z"
+           style="fill:#f3ce00;fill-opacity:1;fill-rule:nonzero;stroke:none"
+           id="path82" />
+      </g>
+    </g>
+    <g
+       id="g84"
+       transform="matrix(0.35277777,0,0,0.35277777,3.0122958,55.908255)"
+       inkscape:export-filename="/home/realcnbs/Projects/personal/picthor.io/picthor-io-ui/src/assets/g208.png"
+       inkscape:export-xdpi="2666.6699"
+       inkscape:export-ydpi="2666.6699">
+      <g
+         id="g86"
+         clip-path="url(#clipPath90)">
+        <path
+           d="m 236.949,249.867 c -6.617,6.672 -15.629,10.426 -25.027,10.426 -9.399,0 -18.406,-3.754 -25.027,-10.426 l 25.043,-24.851 z"
+           style="fill:#4195d2;fill-opacity:1;fill-rule:nonzero;stroke:none"
+           id="path92" />
+      </g>
+    </g>
+    <g
+       id="g94"
+       transform="matrix(0.35277777,0,0,0.35277777,3.0122958,55.908255)"
+       inkscape:export-filename="/home/realcnbs/Projects/personal/picthor.io/picthor-io-ui/src/assets/g208.png"
+       inkscape:export-xdpi="2666.6699"
+       inkscape:export-ydpi="2666.6699">
+      <g
+         id="g96"
+         clip-path="url(#clipPath100)">
+        <path
+           d="m 236.957,189.707 h 69.695 v 16.398 h -69.695 z"
+           style="fill:#c71343;fill-opacity:1;fill-rule:nonzero;stroke:none"
+           id="path102" />
+      </g>
+    </g>
+    <g
+       id="g104"
+       transform="matrix(0.35277777,0,0,0.35277777,3.0122958,55.908255)"
+       inkscape:export-filename="/home/realcnbs/Projects/personal/picthor.io/picthor-io-ui/src/assets/g208.png"
+       inkscape:export-xdpi="2666.6699"
+       inkscape:export-ydpi="2666.6699">
+      <g
+         id="g106"
+         clip-path="url(#clipPath110)">
+        <path
+           d="m 253.832,189.707 h 35.812 v 70.586 h -35.812 z"
+           style="fill:#008296;fill-opacity:1;fill-rule:nonzero;stroke:none"
+           id="path112" />
+      </g>
+    </g>
+    <g
+       id="g114"
+       transform="matrix(0.35277777,0,0,0.35277777,3.0122958,55.908255)"
+       inkscape:export-filename="/home/realcnbs/Projects/personal/picthor.io/picthor-io-ui/src/assets/g208.png"
+       inkscape:export-xdpi="2666.6699"
+       inkscape:export-ydpi="2666.6699">
+      <g
+         id="g116"
+         clip-path="url(#clipPath120)">
+        <path
+           d="m 253.832,189.707 h 35.812 v 16.355 h -35.812 z"
+           style="fill:#00234b;fill-opacity:1;fill-rule:nonzero;stroke:none"
+           id="path122" />
+      </g>
+    </g>
+    <g
+       id="g124"
+       transform="matrix(0.35277777,0,0,0.35277777,3.0122958,55.908255)"
+       inkscape:export-filename="/home/realcnbs/Projects/personal/picthor.io/picthor-io-ui/src/assets/g208.png"
+       inkscape:export-xdpi="2666.6699"
+       inkscape:export-ydpi="2666.6699">
+      <g
+         id="g126"
+         clip-path="url(#clipPath130)">
+        <path
+           d="m 306.652,189.707 h 35.809 v 70.586 h -35.809 z"
+           style="fill:#eb6700;fill-opacity:1;fill-rule:nonzero;stroke:none"
+           id="path132" />
+      </g>
+    </g>
+    <g
+       id="g134"
+       transform="matrix(0.35277777,0,0,0.35277777,3.0122958,55.908255)"
+       inkscape:export-filename="/home/realcnbs/Projects/personal/picthor.io/picthor-io-ui/src/assets/g208.png"
+       inkscape:export-xdpi="2666.6699"
+       inkscape:export-ydpi="2666.6699">
+      <g
+         id="g136"
+         clip-path="url(#clipPath140)">
+        <path
+           d="m 306.652,216.738 h 35.637 v 16.359 h -35.637 z"
+           style="fill:#f3ce00;fill-opacity:1;fill-rule:nonzero;stroke:none"
+           id="path142" />
+      </g>
+    </g>
+    <g
+       id="g144"
+       transform="matrix(0.35277777,0,0,0.35277777,3.0122958,55.908255)"
+       inkscape:export-filename="/home/realcnbs/Projects/personal/picthor.io/picthor-io-ui/src/assets/g208.png"
+       inkscape:export-xdpi="2666.6699"
+       inkscape:export-ydpi="2666.6699">
+      <path
+         d="m 342.289,216.738 h 7.762 v 16.398 h -7.762 z"
+         style="fill:#c71343;fill-opacity:1;fill-rule:nonzero;stroke:none"
+         id="path146" />
+    </g>
+    <g
+       id="g148"
+       transform="matrix(0.35277777,0,0,0.35277777,3.0122958,55.908255)"
+       inkscape:export-filename="/home/realcnbs/Projects/personal/picthor.io/picthor-io-ui/src/assets/g208.png"
+       inkscape:export-xdpi="2666.6699"
+       inkscape:export-ydpi="2666.6699">
+      <g
+         id="g150"
+         clip-path="url(#clipPath154)">
+        <path
+           d="m 350.035,189.707 h 35.809 v 70.586 h -35.809 z"
+           style="fill:#45207b;fill-opacity:1;fill-rule:nonzero;stroke:none"
+           id="path156" />
+      </g>
+    </g>
+    <g
+       id="g158"
+       transform="matrix(0.35277777,0,0,0.35277777,3.0122958,55.908255)"
+       inkscape:export-filename="/home/realcnbs/Projects/personal/picthor.io/picthor-io-ui/src/assets/g208.png"
+       inkscape:export-xdpi="2666.6699"
+       inkscape:export-ydpi="2666.6699">
+      <g
+         id="g160"
+         clip-path="url(#clipPath164)">
+        <path
+           d="m 350.035,216.738 h 35.809 v 16.359 h -35.809 z"
+           style="fill:#4195d2;fill-opacity:1;fill-rule:nonzero;stroke:none"
+           id="path166" />
+      </g>
+    </g>
+    <g
+       id="g168"
+       transform="matrix(0.35277777,0,0,0.35277777,3.0122958,55.908255)"
+       inkscape:export-filename="/home/realcnbs/Projects/personal/picthor.io/picthor-io-ui/src/assets/g208.png"
+       inkscape:export-xdpi="2666.6699"
+       inkscape:export-ydpi="2666.6699">
+      <g
+         id="g170"
+         clip-path="url(#clipPath174)">
+        <path
+           d="m 421.156,189.707 c 14.282,0 27.156,8.602 32.621,21.797 5.465,13.195 2.446,28.383 -7.652,38.48 -10.102,10.098 -25.289,13.121 -38.48,7.653 -13.196,-5.465 -21.801,-18.34 -21.801,-32.621 0,-19.5 15.812,-35.309 35.312,-35.309 z"
+           style="fill:#f3ce00;fill-opacity:1;fill-rule:nonzero;stroke:none"
+           id="path176" />
+      </g>
+    </g>
+    <g
+       id="g178"
+       transform="matrix(0.35277777,0,0,0.35277777,3.0122958,55.908255)"
+       inkscape:export-filename="/home/realcnbs/Projects/personal/picthor.io/picthor-io-ui/src/assets/g208.png"
+       inkscape:export-xdpi="2666.6699"
+       inkscape:export-ydpi="2666.6699">
+      <g
+         id="g180"
+         clip-path="url(#clipPath184)">
+        <path
+           d="m 421.156,189.707 c 14.293,-0.004 27.18,8.617 32.625,21.836 5.449,13.215 2.387,28.414 -7.758,38.484 l -49.91,-50.054 c 6.684,-6.563 15.672,-10.25 25.043,-10.266 z"
+           style="fill:#45207b;fill-opacity:1;fill-rule:nonzero;stroke:none"
+           id="path186" />
+      </g>
+    </g>
+    <g
+       id="g188"
+       transform="matrix(0.35277777,0,0,0.35277777,3.0122958,55.908255)"
+       inkscape:export-filename="/home/realcnbs/Projects/personal/picthor.io/picthor-io-ui/src/assets/g208.png"
+       inkscape:export-xdpi="2666.6699"
+       inkscape:export-ydpi="2666.6699">
+      <g
+         id="g190"
+         clip-path="url(#clipPath194)">
+        <path
+           d="m 456.434,260.293 v -70.586 l 70.418,70.586 z"
+           style="fill:#c71343;fill-opacity:1;fill-rule:nonzero;stroke:none"
+           id="path196" />
+      </g>
+    </g>
+    <g
+       id="g198"
+       transform="matrix(0.35277777,0,0,0.35277777,3.0122958,55.908255)"
+       inkscape:export-filename="/home/realcnbs/Projects/personal/picthor.io/picthor-io-ui/src/assets/g208.png"
+       inkscape:export-xdpi="2666.6699"
+       inkscape:export-ydpi="2666.6699">
+      <g
+         id="g200"
+         clip-path="url(#clipPath204)">
+        <path
+           d="m 456.434,189.707 h 45.23 c 12.195,0.027 22.074,9.906 22.106,22.102 -0.032,12.195 -9.911,22.07 -22.106,22.097 h -45.23 z"
+           style="fill:#76bd4e;fill-opacity:1;fill-rule:nonzero;stroke:none"
+           id="path206" />
+      </g>
+    </g>
+    <g
+       id="g208"
+       transform="matrix(0.35277777,0,0,0.35277777,3.0122958,55.908255)"
+       inkscape:export-filename="/home/realcnbs/Projects/personal/picthor.io/picthor-io-ui/src/assets/g208.png"
+       inkscape:export-xdpi="2666.6699"
+       inkscape:export-ydpi="2666.6699">
+      <g
+         id="g210"
+         clip-path="url(#clipPath214)">
+        <path
+           d="M 500.637,233.906 H 456.434 V 189.707 Z"
+           style="fill:#45207b;fill-opacity:1;fill-rule:nonzero;stroke:none"
+           id="path216" />
+      </g>
+    </g>
+  </g>
+</svg>

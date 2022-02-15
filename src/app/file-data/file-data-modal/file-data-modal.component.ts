@@ -21,9 +21,6 @@ export class FileDataModalComponent implements OnInit {
   @ViewChild('image')
   image: any;
 
-  @ViewChild('container')
-  container: any;
-
   @Input()
   imageId!: number;
 
@@ -32,15 +29,30 @@ export class FileDataModalComponent implements OnInit {
 
   @Output()
   showPrevious = new EventEmitter<number>();
+
   private swipeCoord!: [number, number];
   private swipeTime!: number;
 
   loading: boolean = true;
-  mobile = false;
   imgRotation: number = 0;
-  state = 'normal';
-  isShown = false;
-  meta?: any;
+  meta?: {
+    Software?: string;
+    GPSAltitude?: string;
+    GPSLongitude?: string;
+    GPSLatitude?: string;
+    LensID?: string;
+    ImageWidth?: string;
+    ImageHeight?: string;
+    FocalLength?: string;
+    FocalLengthIn35mmFormat?: string;
+    ISO?: string;
+    Aperture?: string;
+    Model?: string;
+    Make?: string;
+    ShutterSpeed?: string;
+    CreateDate?: string;
+    DateTimeOriginal?: string;
+  };
   fileData?: FileData;
   thumbPath?: string;
 
@@ -49,19 +61,12 @@ export class FileDataModalComponent implements OnInit {
   constructor(protected fileDataService: FileDataService) {}
 
   ngOnInit(): void {
-    window.screen.width <= 1200 ? (this.mobile = true) : (this.mobile = false);
     this.fileData$.subscribe((fileData) => {
       this.fileData = fileData;
       this.fileDataService.preloadThumb(this.fileData, 1080).subscribe((path) => (this.thumbPath = path));
       this.isOpen = true;
       this.fileDataService.getMeta(fileData.id).subscribe((meta) => {
-        if (meta) {
-          this.meta = {
-            // format: this.getFormat(meta),
-            // geometry: this.getImageGeometry(meta),
-            // modifiedDate: this.getModifiedDate(meta)
-          };
-        }
+        this.meta = meta;
       });
     });
   }
@@ -79,58 +84,30 @@ export class FileDataModalComponent implements OnInit {
     img.style.transform = `rotate(${this.imgRotation}deg)`;
   }
 
-  switchImg(){
+  reset() {
     this.loading = true;
     this.fileData = undefined;
     this.thumbPath = undefined;
+    this.isFull = false;
   }
 
   close() {
     this.isOpen = false;
-    this.switchImg()
+    this.reset();
   }
 
   next() {
-    this.switchImg();
+    this.reset();
     this.showNext.emit();
   }
 
   previous() {
-    this.switchImg();
+    this.reset();
     this.showPrevious.emit();
   }
 
-  fullscreen() {
-    if(!this.mobile) {
-      if (!this.isFull) {
-        this.image.nativeElement.className = 'laptop_fullscreen';
-        this.isFull = true;
-      } else {
-        this.image.nativeElement.classList.remove('laptop_fullscreen');
-        this.image.nativeElement.classList.add('modal-image');
-        this.isFull = false;
-      }
-    }
-    else{
-      if (!document.fullscreenElement) {
-        this.image.nativeElement.requestFullscreen({ navigationUI: 'hide' }).catch((err: { message: any; name: any }) => {
-          alert(`Error attempting to enable full-screen mode: ${err.message} (${err.name})`);
-        });
-      } else {
-        document.exitFullscreen();
-      }
-      // if (!this.isFull) {
-      //   console.log(this.image.nativeElement.className);
-      //   this.image.nativeElement.className = 'mobile_fullscreen';
-      //   this.isFull = true;
-      //   console.log(this.image.nativeElement.className);
-      // } else {
-      //   this.image.nativeElement.classList.remove('mobile_fullscreen');
-      //   this.image.nativeElement.classList.add('modal-image');
-      //   this.isFull = false;
-      // }
-
-    }
+  toggleFull() {
+    this.isFull = !this.isFull;
   }
 
   swipe(e: TouchEvent, when: string) {

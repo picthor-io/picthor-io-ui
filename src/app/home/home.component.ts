@@ -15,15 +15,14 @@ export class HomeComponent implements OnInit {
   sortOption!: string;
   sortDir!: string;
 
-
-  constructor(protected directoriesService: DirectoriesService,
-              protected fileDataService: FileDataService,
-              protected sortService: SorterService,) {
-  }
+  constructor(
+    protected directoriesService: DirectoriesService,
+    protected fileDataService: FileDataService,
+    protected sortService: SorterService
+  ) {}
 
   ngOnInit(): void {
-
-    this.sortService.sort$.subscribe(newSort => {
+    this.sortService.sort$.subscribe((newSort) => {
       this.sortOption = newSort[0];
       this.sortDir = newSort[1];
     });

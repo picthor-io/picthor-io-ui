@@ -1,25 +1,24 @@
 <clr-header>
   <div class="branding">
     <a routerLink="/home" class="nav-link">
-      <cds-icon shape="home"></cds-icon>
-      <span class="title">Picthor.Io</span>
+      <img class="logo" src="assets/picthor-logo-color.png" />
     </a>
   </div>
   <div class="header-actions">
     <clr-dropdown>
       <button class="nav-icon" clrDropdownTrigger aria-label="toggle settings menu">
-        <clr-icon shape="filter" style='color: red; background-color: red'></clr-icon>
+        <clr-icon shape="filter" style="color: red; background-color: red"></clr-icon>
       </button>
       <clr-dropdown-menu *clrIfOpen clrPosition="bottom-right">
-        <a (click)='setSort("date")' clrDropdownItem>Date</a>
-        <a (click)='setSort("size_bytes")' clrDropdownItem>Size</a>
-        <a (click)='setSort("extension")' clrDropdownItem>Extension</a>
+        <a (click)="setSort('date')" clrDropdownItem>Date</a>
+        <a (click)="setSort('size_bytes')" clrDropdownItem>Size</a>
+        <a (click)="setSort('extension')" clrDropdownItem>Extension</a>
       </clr-dropdown-menu>
     </clr-dropdown>
   </div>
 </clr-header>
 
-<nav class="header-nav" [clr-nav-level]="2" style='margin-left: 20px; margin-right: 20px'>
+<nav class="header-nav" [clr-nav-level]="2" style="margin-left: 20px; margin-right: 20px">
   <ul class="nav">
     <li class="nav-item">
       <a class="nav-link" routerLinkActive="active" routerLink="/home">Home</a>

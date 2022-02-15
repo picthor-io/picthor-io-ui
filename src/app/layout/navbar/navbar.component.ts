@@ -12,22 +12,13 @@ export class NavbarComponent implements OnInit {
 
   asc: boolean = false;
 
-  constructor(protected directoriesService: DirectoriesService,
-              protected sortService: SorterService) {
-  }
-  ngOnInit(): void {
-    // this.directoriesService
-    //   .getPage(new RouteParams({ pageNum: 1, pageSize: 100, filter: [{ field: 'type', value: 'ROOT' }] }))
-    //   .subscribe((results) => {
-    //     this.roots = results.content;
-    //   });
-  }
+  constructor(protected sortService: SorterService) {}
+  ngOnInit(): void {}
 
-  setSort(sortBy: string){
-
+  setSort(sortBy: string) {
     let direction;
     this.asc = !this.asc;
-    this.asc ? direction = 'DESC' : direction = 'ASC';
+    this.asc ? (direction = 'DESC') : (direction = 'ASC');
     this.sortService.emitSort([sortBy, direction]);
   }
 }
