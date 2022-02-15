@@ -1,5 +1,13 @@
+<ng-container *ngIf="isOpen">
+  <div class="slider-btn slider-btn-left" (click)="previous()">
+    <cds-icon size="xl" shape="angle" direction="left"></cds-icon>
+  </div>
+  <div class="slider-btn slider-btn-right" (click)="next()">
+    <cds-icon size="xl" shape="angle" direction="right"></cds-icon>
+  </div>
+</ng-container>
 <clr-modal
-  (clrModalOpenChange)="this.isOpen = false"
+  (clrModalOpenChange)="close()"
   [(clrModalOpen)]="isOpen"
   [clrModalSize]="'xl'"
   [clrModalStaticBackdrop]="false"
@@ -7,96 +15,74 @@
   <h3 class="modal-title" *ngIf="fileData">{{ fileData.fileName }}</h3>
 
   <div class="modal-body" (touchstart)="swipe($event, 'start')" (touchend)="swipe($event, 'end')">
-    <div class="clr-row" *ngIf="fileData">
-      <div class="clr-col-xl-9 clr-col-sm-12">
-        <div class="picture-center">
-          <div
-            class="slider__btn"
-            [ngClass]="mobile ? 'mobile_slider__btn--left' : 'laptop_slider__btn--left'"
-            (click)="previous()"
-          >
-            <cds-icon shape="angle" direction="left"></cds-icon>
+    <div [ngClass]="{ 'height-100': !loading }" class="clr-row height-100" *ngIf="fileData">
+      <div class="clr-col-xl-9 clr-col-sm-12 height-100">
+        <div class="modal-image-center height-100">
+          <div *ngIf="loading">
+            <div style="width: 100px; margin-left: auto; margin-right: auto; margin-top: 200px">
+              <clr-spinner></clr-spinner>
+            </div>
           </div>
-          <div
-            class="slider__btn"
-            [ngClass]="mobile ? 'mobile_slider__btn--right' : 'laptop_slider__btn--right'"
-            (click)="next()"
-          >
-            <cds-icon shape="angle" direction="right"></cds-icon>
+          <div [ngClass]="{ 'no-scroll': loading }" class="modal-image-container">
+            <img
+              #image
+              *ngIf="thumbPath"
+              src="{{ thumbPath }}"
+              alt="{{ fileData.fileName }}"
+              (load)="loading = false"
+              (click)="toggleFull()"
+              [ngClass]="{ 'fullscreen-image': isFull, 'modal-image': !isFull }"
+            />
           </div>
-          <clr-spinner *ngIf="loading"></clr-spinner>
-          <img
-            *ngIf="thumbPath"
-            class="modal-image"
-            [src]="thumbPath"
-            alt="{{ fileData.fileName }}"
-            (load)="loading = false"
-            (click)="fullscreen()"
-          />
         </div>
       </div>
       <div class="clr-col-xl-3 clr-col-sm-12">
-        <div>
-          <button (click)="downloadImage(fileData)" class="btn btn-info-outline" style="float: right">
-            <cds-icon shape="download"></cds-icon>
-          </button>
-        </div>
-        <!--        <div style="margin-top: 0">-->
-        <!--          <button (click)="rotateImg()" class="btn btn-info-outline" style="float: right">-->
-        <!--            <cds-icon shape="refresh"></cds-icon>-->
-        <!--          </button>-->
-        <!--        </div> -->
         <div class="row">
-          <table *ngIf="meta" class="table table-compact table-noborder">
-            <caption>
-              {{
-                fileData?.fileName
-              }}
-            </caption>
-            <thead>
-              <tr>
-                <th class="right">Information</th>
-                <th class="left" (click)="isShown = !isShown" style="cursor: pointer">
-                  <a *ngIf="!isShown"> Show More</a>
-                  <a *ngIf="isShown"> Show Less</a>
-                </th>
-              </tr>
-            </thead>
+          <table *ngIf="meta" class="table table-vertical" style="margin-top: 0">
             <tbody>
-              <tr>
-                <td class="right">Format</td>
-                <td class="left">{{ meta.format }}</td>
+              <tr *ngIf="fileData.sizeBytes">
+                <th>File Size</th>
+                <td>{{ fileData.sizeBytes | appPrettyBytes }}</td>
               </tr>
-              <tr>
-                <td class="right">File Size</td>
-                <td class="left">{{ fileData?.sizeBytes | appPrettyBytes }}</td>
+              <tr *ngIf="meta.ImageWidth">
+                <th>Width</th>
+                <td>{{ meta.ImageWidth }}</td>
               </tr>
-              <tr>
-                <td class="right">Resolution</td>
-                <td class="left">{{ meta.geometry }}</td>
+              <tr *ngIf="meta.ImageHeight">
+                <th>Height</th>
+                <td>{{ meta.ImageHeight }}</td>
               </tr>
-              <tr>
-                <td class="right">Date Created</td>
-                <td class="left">{{ fileData?.createdAt | appDate }}</td>
+              <tr *ngIf="fileData.createdAt">
+                <th>File Created</th>
+                <td>{{ fileData.createdAt | appDate }}</td>
               </tr>
-              <tr>
-                <td class="right">Date Modified</td>
-                <td class="left">{{ meta.modifiedDate | appDate }}</td>
+              <tr *ngIf="!meta.Make && meta.Software">
+                <th>Software</th>
+                <td>{{ meta.Software }}</td>
               </tr>
-
-              <tr *ngIf="isShown">
-                <td class="right">Date Created</td>
-                <td class="left">{{ fileData?.createdAt }}</td>
+              <tr *ngIf="meta.Make">
+                <th>Make</th>
+                <td>{{ meta.Make }}</td>
               </tr>
-              <tr *ngIf="isShown">
-                <td class="right">Date Modified</td>
-                <td class="left">{{ meta.modifiedDate | appDate }}</td>
+              <tr *ngIf="meta.Model">
+                <th>Model</th>
+                <td>{{ meta.Model }}</td>
               </tr>
             </tbody>
+            <tfoot>
+              <tr>
+                <td></td>
+                <td class="right">
+                  <button title="Download Original" (click)="downloadImage(fileData)" class="btn btn-icon">
+                    <cds-icon shape="download"></cds-icon>
+                  </button>
+                </td>
+              </tr>
+            </tfoot>
           </table>
         </div>
       </div>
     </div>
-    <div class="closeArea" *ngIf="mobile" (click)="close()"></div>
+    <div class="close-area" (click)="close()"></div>
   </div>
 </clr-modal>

@@ -3,20 +3,22 @@
     <div class="card-title">{{ directory.name }}</div>
     <div class="card-text">
       <div class="card-media-description">
-        <div class="clr-row" style="height: 100%">
+        <div class="clr-row directory-card-row">
           <div class="clr-col-12">
-                  <span style="vertical-align: text-top; margin-left: 2px"
+                  <span class="p5 directory-card-stats"
                   >{{ directory.stats.totalDirsNum }} | {{ directory.stats.totalFilesNum }} |
                     {{ directory.stats.totalSizeBytes | appPrettyBytes }}</span
                   >
           </div>
         </div>
       </div>
-      <br/>
+      <br />
       <ng-container *ngIf="syncJobs && this.pollingSyncState">
         <div *ngFor="let job of syncJobs" class="progress-block clr-row">
           <ng-container *ngIf="job.counterCurrent > 0">
-            <div class="clr-col-12"><label>{{ job.name }}</label>: {{ job.counterCurrent }} of {{ job.counterTotal }}
+            <div class="clr-col-12 p5" style="margin-top: 0">
+              <label>{{ job.name }}</label
+              >: {{ job.counterCurrent }} of {{ job.counterTotal }}
             </div>
             <div class="clr-col-12">
               <clr-progress-bar

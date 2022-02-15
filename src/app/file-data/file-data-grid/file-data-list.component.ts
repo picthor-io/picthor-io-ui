@@ -1,19 +1,10 @@
-import { Component, Input, OnChanges, OnInit } from '@angular/core';
+import { Component, HostListener, Input, OnChanges, OnInit } from '@angular/core';
 import { RouteParams } from '@picthor/abstract/route-params';
 import { FileDataService } from '@picthor/file-data/file-data.service';
 import { FileData } from '@picthor/file-data/file-data';
 import { PagedEntities } from '@picthor/abstract/paged-entities';
 import { fromEvent, merge, Observable, of, Subject } from 'rxjs';
-import {
-  concatMap,
-  debounceTime,
-  distinct,
-  filter,
-  map,
-  scan,
-  startWith,
-  tap,
-} from 'rxjs/operators';
+import { concatMap, debounceTime, distinct, filter, map, scan, startWith, tap } from 'rxjs/operators';
 
 export class Options {
   SHOW_ADDED_ON?: boolean;
@@ -31,7 +22,6 @@ export class FileDataListComponent implements OnInit {
   totalPages = 0;
   pageSize = 24;
   pagesLoaded: number[] = [];
-  filesPage$: Observable<PagedEntities<FileData>> = of(new PagedEntities<FileData>());
   files$!: Observable<FileData[]>;
   allFiles: FileData[] = [];
 
@@ -39,9 +29,7 @@ export class FileDataListComponent implements OnInit {
   modalFileData$: Subject<FileData> = new Subject();
 
   private filterData: { field: string; value: any }[] = [];
-
-  @Input()
-  public sort?: { field: string; dir: string }[];
+  private sortData: { field: string; dir: string }[] = [];
 
   @Input()
   public options!: Options;
@@ -53,9 +41,15 @@ export class FileDataListComponent implements OnInit {
 
   private loadNextPage$ = new Subject<boolean>();
   private pageLoaded$ = new Subject<boolean>();
+  private windowScrolled$ = new Subject<Event>();
+
+  @HostListener('window:scroll', [])
+  onScroll() {
+    this.windowScrolled$.next();
+  }
 
   // emmit event when page bottom almost reached
-  private bottomReached$ = fromEvent(window, 'scroll').pipe(
+  private bottomReached$ = this.windowScrolled$.pipe(
     map(() => window.scrollY),
     distinct(),
     debounceTime(20),
@@ -103,10 +97,18 @@ export class FileDataListComponent implements OnInit {
   constructor(protected fileDataService: FileDataService) {}
 
   @Input()
+  set sort(sort: { field: string; dir: string }[]) {
+    this.sortData = sort;
+    this.reset();
+  }
+
+  @Input()
   set filter(filterData: { field: string; value: any }[]) {
-
     this.filterData = filterData;
+    this.reset();
+  }
 
+  private reset() {
     // listen on next page number to be loaded
     this.files$ = this.pageToLoad$.pipe(
       // load first page always
@@ -123,7 +125,7 @@ export class FileDataListComponent implements OnInit {
               pageNum: page,
               pageSize: this.pageSize,
               filter: this.filterData,
-              sort: this.sort,
+              sort: this.sortData,
             })
           )
           .pipe(
