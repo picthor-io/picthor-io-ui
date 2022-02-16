@@ -29,34 +29,44 @@ export class FileDataModalComponent implements OnInit {
 
   @Output()
   showPrevious = new EventEmitter<number>();
+
   private swipeCoord!: [number, number];
   private swipeTime!: number;
 
   loading: boolean = true;
-  mobile = false;
   imgRotation: number = 0;
-  state = 'normal';
-  isShown = false;
-  meta?: any;
+  meta?: {
+    Software?: string;
+    GPSAltitude?: string;
+    GPSLongitude?: string;
+    GPSLatitude?: string;
+    LensID?: string;
+    ImageWidth?: string;
+    ImageHeight?: string;
+    FocalLength?: string;
+    FocalLengthIn35mmFormat?: string;
+    ISO?: string;
+    Aperture?: string;
+    Model?: string;
+    Make?: string;
+    ShutterSpeed?: string;
+    CreateDate?: string;
+    DateTimeOriginal?: string;
+  };
   fileData?: FileData;
   thumbPath?: string;
+
+  isFull?: boolean;
 
   constructor(protected fileDataService: FileDataService) {}
 
   ngOnInit(): void {
-    window.screen.width <= 1200 ? (this.mobile = true) : (this.mobile = false);
     this.fileData$.subscribe((fileData) => {
       this.fileData = fileData;
       this.fileDataService.preloadThumb(this.fileData, 1080).subscribe((path) => (this.thumbPath = path));
       this.isOpen = true;
       this.fileDataService.getMeta(fileData.id).subscribe((meta) => {
-        if (meta) {
-          this.meta = {
-            // format: this.getFormat(meta),
-            // geometry: this.getImageGeometry(meta),
-            // modifiedDate: this.getModifiedDate(meta)
-          };
-        }
+        this.meta = meta;
       });
     });
   }
@@ -74,18 +84,11 @@ export class FileDataModalComponent implements OnInit {
     img.style.transform = `rotate(${this.imgRotation}deg)`;
   }
 
-  next() {
+  reset() {
     this.loading = true;
     this.fileData = undefined;
     this.thumbPath = undefined;
-    this.showNext.emit();
-  }
-
-  previous() {
-    this.loading = true;
-    this.fileData = undefined;
-    this.thumbPath = undefined;
-    this.showPrevious.emit();
+    this.isFull = false;
   }
 
   close() {
@@ -95,15 +98,18 @@ export class FileDataModalComponent implements OnInit {
     this.fileArr = [];
   }
 
-  fullscreen() {
-    console.log(this.image);
-    if (!document.fullscreenElement) {
-      this.image.nativeElement.requestFullscreen({ navigationUI: 'hide' }).catch((err: { message: any; name: any }) => {
-        alert(`Error attempting to enable full-screen mode: ${err.message} (${err.name})`);
-      });
-    } else {
-      document.exitFullscreen();
-    }
+  next() {
+    this.reset();
+    this.showNext.emit();
+  }
+
+  previous() {
+    this.reset();
+    this.showPrevious.emit();
+  }
+
+  toggleFull() {
+    this.isFull = !this.isFull;
   }
 
   swipe(e: TouchEvent, when: string) {
