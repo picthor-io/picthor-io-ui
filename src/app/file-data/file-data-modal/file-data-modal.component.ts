@@ -92,6 +92,7 @@ export class FileDataModalComponent implements OnInit {
     this.isOpen = false;
     this.fileData = undefined;
     this.thumbPath = undefined;
+    this.fileArr = [];
   }
 
   fullscreen() {
