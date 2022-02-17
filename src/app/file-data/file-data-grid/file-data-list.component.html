@@ -26,7 +26,13 @@
 </div>
 
 <app-file-data-modal
+  *ngIf="modalVisible"
   [fileData$]="modalFileData$"
-  (showNext)='modalNext()'
-  (showPrevious)='modalPrevious()'>
+  [hasNext]="modalHasNext"
+  [hasPrevious]="modalHasPrevious"
+  (closed)="modalVisible = false"
+  (initialized)="modalInitialized()"
+  (showNext)="modalNext()"
+  (showPrevious)="modalPrevious()"
+>
 </app-file-data-modal>

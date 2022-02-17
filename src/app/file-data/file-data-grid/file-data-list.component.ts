@@ -25,8 +25,12 @@ export class FileDataListComponent implements OnInit {
   files$!: Observable<FileData[]>;
   allFiles: FileData[] = [];
 
+  modalFile?: FileData;
+  modalVisible = false;
   modalImageIndex = 0;
   modalFileData$: Subject<FileData> = new Subject();
+  modalHasNext = false;
+  modalHasPrevious = false;
 
   private filterData: { field: string; value: any }[] = [];
   private sortData: { field: string; dir: string }[] = [];
@@ -110,6 +114,7 @@ export class FileDataListComponent implements OnInit {
 
   private reset() {
     // listen on next page number to be loaded
+    this.allFiles = [];
     this.files$ = this.pageToLoad$.pipe(
       // load first page always
       startWith(1),
@@ -142,6 +147,7 @@ export class FileDataListComponent implements OnInit {
       scan<FileData[]>((acc, curr) => {
         acc.push(...curr);
         this.allFiles.push(...curr);
+        this.updatePrevNext();
         return acc;
       }, []),
       // emit page loaded event
@@ -154,21 +160,29 @@ export class FileDataListComponent implements OnInit {
   }
 
   showModal(file: FileData, index: number) {
+    this.modalVisible = true;
     this.modalImageIndex = index;
-    this.modalFileData$.next(file);
+    this.modalFile = file;
+    this.updatePrevNext();
+  }
+
+  modalInitialized() {
+    this.modalFileData$.next(this.modalFile);
   }
 
   modalNext() {
     if (this.allFiles[this.modalImageIndex + 1]) {
       // if all loaded files contain next image emit it as event for modal
       this.modalFileData$.next(this.allFiles[++this.modalImageIndex]);
+      this.updatePrevNext();
     } else {
       // if all loaded files does not contain next image but there are more pages to load
       // emit loadNextPage event and switch to next image after the next page was loaded
-      if (this.totalElements > this.modalImageIndex) {
+      if (this.totalElements - 1 > this.modalImageIndex) {
         this.loadNextPage$.next();
         this.pageLoaded$?.subscribe(() => {
           this.modalFileData$.next(this.allFiles[++this.modalImageIndex]);
+          this.updatePrevNext();
         });
       }
     }
@@ -178,6 +192,12 @@ export class FileDataListComponent implements OnInit {
     // if all loaded files contain next image emit it as event for modal
     if (this.allFiles[this.modalImageIndex - 1]) {
       this.modalFileData$.next(this.allFiles[--this.modalImageIndex]);
+      this.updatePrevNext();
     }
+  }
+
+  private updatePrevNext() {
+    this.modalHasNext = this.allFiles.length - 1 > this.modalImageIndex;
+    this.modalHasPrevious = this.modalImageIndex > 0;
   }
 }

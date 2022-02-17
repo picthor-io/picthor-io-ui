@@ -3,7 +3,7 @@ import { DirectoriesService } from '@picthor/directory/directory.service';
 import { Directory } from '@picthor/directory/directory';
 import { Observable } from 'rxjs';
 import { FileDataService } from '@picthor/file-data/file-data.service';
-import { SorterService } from '@picthor/layout/sorter.service';
+import { SorterService } from '@picthor/sorter.service';
 
 @Component({
   selector: 'app-home',

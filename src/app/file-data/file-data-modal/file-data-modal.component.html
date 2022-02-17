@@ -1,8 +1,8 @@
-<ng-container *ngIf="isOpen">
-  <div class="slider-btn slider-btn-left" (click)="previous()">
+<ng-container>
+  <div class="slider-btn slider-btn-left" *ngIf="hasPrevious" (click)="previous()">
     <cds-icon size="xl" shape="angle" direction="left"></cds-icon>
   </div>
-  <div class="slider-btn slider-btn-right" (click)="next()">
+  <div class="slider-btn slider-btn-right" *ngIf="hasNext" (click)="next()">
     <cds-icon size="xl" shape="angle" direction="right"></cds-icon>
   </div>
 </ng-container>
@@ -38,8 +38,12 @@
       </div>
       <div class="clr-col-xl-3 clr-col-sm-12">
         <div class="row">
-          <table *ngIf="meta" class="table table-vertical" style="margin-top: 0">
+          <table *ngIf="meta" class="table table-vertical table-compact" style="margin-top: 0">
             <tbody>
+              <tr *ngIf="meta.DateTimeOriginal">
+                <th>Original Date</th>
+                <td>{{ meta.DateTimeOriginal }}</td>
+              </tr>
               <tr *ngIf="fileData.sizeBytes">
                 <th>File Size</th>
                 <td>{{ fileData.sizeBytes | appPrettyBytes }}</td>
@@ -68,18 +72,30 @@
                 <th>Model</th>
                 <td>{{ meta.Model }}</td>
               </tr>
-            </tbody>
-            <tfoot>
-              <tr>
-                <td></td>
-                <td class="right">
-                  <button title="Download Original" (click)="downloadImage(fileData)" class="btn btn-icon">
-                    <cds-icon shape="download"></cds-icon>
-                  </button>
+              <tr *ngIf="meta.LensID">
+                <th>Lens</th>
+                <td>{{ meta.LensID }}</td>
+              </tr>
+              <tr *ngIf="meta.FocalLength">
+                <th>Focal Length</th>
+                <td>
+                  {{ meta.FocalLength }}
+                  <span *ngIf="meta.FocalLengthIn35mmFormat">({{ meta.FocalLengthIn35mmFormat }} eq)</span>
                 </td>
               </tr>
-            </tfoot>
+              <tr *ngIf="meta.ISO">
+                <th>ISO</th>
+                <td>{{ meta.ISO }}</td>
+              </tr>
+              <tr *ngIf="meta.Aperture">
+                <th>Aperture</th>
+                <td>{{ meta.Aperture }}</td>
+              </tr>
+            </tbody>
           </table>
+          <button title="Download Original" (click)="downloadOriginal(fileData)" class="btn btn-icon">
+            <cds-icon shape="download"></cds-icon>
+          </button>
         </div>
       </div>
     </div>

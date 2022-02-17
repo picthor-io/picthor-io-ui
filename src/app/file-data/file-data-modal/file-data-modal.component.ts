@@ -1,6 +1,6 @@
-import { Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
+import { Component, EventEmitter, HostListener, Input, OnInit, Output, ViewChild } from '@angular/core';
 import { FileData } from '@picthor/file-data/file-data';
-import { Observable, of } from 'rxjs';
+import { Observable } from 'rxjs';
 import { FileDataService } from '@picthor/file-data/file-data.service';
 import * as FileSaver from 'file-saver';
 
@@ -10,6 +10,22 @@ import * as FileSaver from 'file-saver';
   styleUrls: ['./file-data-modal.component.css'],
 })
 export class FileDataModalComponent implements OnInit {
+  @HostListener('window:keyup', ['$event'])
+  keyEvent(event: KeyboardEvent) {
+    if (this.hasPrevious && event.code == 'ArrowLeft') {
+      this.previous();
+    }
+    if (this.hasNext && event.code == 'ArrowRight') {
+      this.next();
+    }
+    if (event.code == 'KeyR') {
+      this.rotateImg();
+    }
+    if (event.code == 'Space') {
+      this.toggleFull();
+    }
+  }
+
   isOpen!: boolean;
 
   @Input()
@@ -24,11 +40,23 @@ export class FileDataModalComponent implements OnInit {
   @Input()
   imageId!: number;
 
+  @Input()
+  hasPrevious = false;
+
+  @Input()
+  hasNext = false;
+
   @Output()
   showNext = new EventEmitter<number>();
 
   @Output()
   showPrevious = new EventEmitter<number>();
+
+  @Output()
+  closed = new EventEmitter<any>();
+
+  @Output()
+  initialized = new EventEmitter<any>();
 
   private swipeCoord!: [number, number];
   private swipeTime!: number;
@@ -69,9 +97,10 @@ export class FileDataModalComponent implements OnInit {
         this.meta = meta;
       });
     });
+    this.initialized.next();
   }
 
-  downloadImage(modalImage: FileData) {
+  downloadOriginal(modalImage: FileData) {
     FileSaver.saveAs(FileData.originalFileUrl(modalImage), modalImage?.fileName);
   }
 
@@ -92,10 +121,7 @@ export class FileDataModalComponent implements OnInit {
   }
 
   close() {
-    this.isOpen = false;
-    this.fileData = undefined;
-    this.thumbPath = undefined;
-    this.fileArr = [];
+    this.closed.next();
   }
 
   next() {

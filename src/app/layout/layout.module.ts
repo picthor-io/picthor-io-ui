@@ -17,17 +17,41 @@ import {
   folderIcon,
   homeIcon,
   storageIcon,
-  refreshIcon, carIcon, cogIcon, filterIcon, angleIcon
+  refreshIcon,
+  carIcon,
+  cogIcon,
+  filterIcon,
+  angleIcon,
 } from '@cds/core/icon';
 import { CdsIconModule } from '@cds/angular';
 
 @NgModule({
-  imports: [CommonModule, FormsModule, ReactiveFormsModule, RouterModule, ClrNavigationModule, CdsIconModule, ClrDropdownModule],
+  imports: [
+    CommonModule,
+    FormsModule,
+    ReactiveFormsModule,
+    RouterModule,
+    ClrNavigationModule,
+    CdsIconModule,
+    ClrDropdownModule,
+  ],
   declarations: [LayoutComponent, NavbarComponent, FooterComponent, ErrorPageComponent, SidenavComponent],
 })
 export class LayoutModule {
   constructor() {
-    ClarityIcons.addIcons(folderIcon, homeIcon, boatIcon, arrowIcon, fileIcon, storageIcon, downloadIcon, refreshIcon,
-      cogIcon, carIcon, filterIcon, angleIcon);
+    ClarityIcons.addIcons(
+      folderIcon,
+      homeIcon,
+      boatIcon,
+      arrowIcon,
+      fileIcon,
+      storageIcon,
+      downloadIcon,
+      refreshIcon,
+      cogIcon,
+      carIcon,
+      filterIcon,
+      angleIcon
+    );
   }
 }

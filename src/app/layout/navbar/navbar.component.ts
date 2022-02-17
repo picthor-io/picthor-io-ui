@@ -1,7 +1,7 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { Directory } from '@picthor/directory/directory';
 import { DirectoriesService } from '@picthor/directory/directory.service';
-import { SorterService } from '@picthor/layout/sorter.service';
+import { SorterService } from '@picthor/sorter.service';
 
 @Component({
   selector: 'app-navbar',

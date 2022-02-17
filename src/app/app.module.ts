@@ -26,7 +26,7 @@ import {
   ClrModalModule,
   ClrProgressBarModule,
   ClrSignpostModule,
-  ClrSpinnerModule
+  ClrSpinnerModule,
 } from '@clr/angular';
 import { FileDataModalComponent } from '@picthor/file-data/file-data-modal/file-data-modal.component';
 
@@ -65,8 +65,7 @@ function initializeAppEnv(httpClient: HttpClient): () => Observable<any> {
     ClrSignpostModule,
     LazyLoadImageModule,
     ClrSpinnerModule,
-    ClrDropdownModule
-
+    ClrDropdownModule,
   ],
   providers: [
     DirectoriesService,
