@@ -1,4 +1,10 @@
 <div class="clr-row" *ngIf="files$">
+  <div class="clr-col-12">
+    <app-file-data-grid-sort [filters]="filtersData"></app-file-data-grid-sort>
+  </div>
+</div>
+
+<div class="clr-row" *ngIf="files$">
   <div
     *ngFor="let fileData of files$ | async; let i = index"
     class="clr-align-self-start clr-col-xl-2 clr-col-lg-3 clr-col-md-6 clr-col-sm-12"
@@ -22,6 +28,18 @@
         </div>
       </div>
     </div>
+  </div>
+</div>
+
+<div class="clr-row clr-row clr-justify-content-center" *ngIf="loading">
+  <div class="clr-col-auto" style="min-height: 500px; padding-top: 150px">
+    <clr-spinner>Loading ...</clr-spinner>
+  </div>
+</div>
+
+<div class="clr-row clr-row clr-justify-content-center" *ngIf="allFiles.length === 0">
+  <div class="clr-col-auto" style="min-height: 500px; padding-top: 150px">
+    <p class="p1">No Results...</p>
   </div>
 </div>
 

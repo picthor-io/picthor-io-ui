@@ -2,10 +2,10 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { ErrorPageComponent } from '@picthor/layout/error-page/error-page.component';
 import { LayoutComponent } from '@picthor/layout/layout.component';
-import { FileDataListComponent } from '@picthor/file-data/file-data-grid/file-data-list.component';
 import { DirectoryComponent } from '@picthor/directory/components/directory.component';
 import { HomeComponent } from '@picthor/home/home.component';
 import { RootsComponent } from '@picthor/roots/roots.component';
+import { FileDataGridComponent } from '@picthor/file-data/file-data-grid/file-data-grid.component';
 
 const routes: Routes = [
   {
@@ -19,19 +19,19 @@ const routes: Routes = [
     children: [
       {
         path: 'files',
-        component: FileDataListComponent
+        component: FileDataGridComponent,
       },
       {
         path: 'directories/:id',
-        component: DirectoryComponent
+        component: DirectoryComponent,
       },
       {
         path: 'home',
-        component: HomeComponent
+        component: HomeComponent,
       },
       {
         path: 'roots',
-        component: RootsComponent
+        component: RootsComponent,
       },
       {
         path: '**',

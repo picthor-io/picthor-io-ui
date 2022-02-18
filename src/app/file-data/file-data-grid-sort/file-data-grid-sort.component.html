@@ -1,0 +1,38 @@
+<ng-template #sortBtn let-field="field" let-label="label">
+  <button style="margin-bottom: 0" (click)="toggleSort(field)" class="btn btn-sm btn-link">
+    <ng-container *ngIf="sortDirection(field) as dir">
+      <ng-container *ngIf="dir === 'DESC'">
+        <cds-icon shape="arrow" direction="down"></cds-icon>
+      </ng-container>
+      <ng-container *ngIf="dir === 'ASC'">
+        <cds-icon shape="arrow" direction="up"></cds-icon>
+      </ng-container>
+    </ng-container>
+    {{ label }}
+  </button>
+</ng-template>
+
+<div class="clr-row clr-align-items-end">
+  <div class="clr-col-lg-auto">
+    <ng-container *ngTemplateOutlet="sortBtn; context: { field: 'created_at', label: 'File Added' }"></ng-container>
+    <ng-container *ngTemplateOutlet="sortBtn; context: { field: 'size_bytes', label: 'File Size' }"></ng-container>
+    <ng-container *ngTemplateOutlet="sortBtn; context: { field: 'extension', label: 'Extension' }"></ng-container>
+  </div>
+  <div class="clr-col-lg-auto">
+    <clr-input-container>
+      <input [ngModel]="fileNameFilter" (ngModelChange)="inputChanged.next($event)" clrInput placeholder="File Name" />
+    </clr-input-container>
+  </div>
+  <div class="clr-col-lg-auto">
+    <clr-combobox-container>
+      <clr-combobox clrMulti="true" placeholder="Extension">
+        <ng-container *clrOptionSelected="let selected">
+          {{ selected }}
+        </ng-container>
+        <clr-options>
+          <clr-option *clrOptionItems="let ext of extensions$ | async" [clrValue]="ext">.{{ ext }}</clr-option>
+        </clr-options>
+      </clr-combobox>
+    </clr-combobox-container>
+  </div>
+</div>

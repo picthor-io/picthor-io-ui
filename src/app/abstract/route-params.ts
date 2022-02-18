@@ -1,14 +1,9 @@
 import { ParamMap } from '@angular/router';
+import { FilterParams, SortParams } from '@picthor/file-data/file-data-grid-sort/filter-and-sort.service';
 
 export class RouteParams {
-  sort?: Array<{
-    field: string;
-    dir: string;
-  }>;
-  filter?: Array<{
-    field: string;
-    value: any;
-  }>;
+  sort?: SortParams[];
+  filter?: FilterParams[];
   pageNum?: number;
   pageSize?: number;
 

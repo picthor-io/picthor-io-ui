@@ -9,19 +9,19 @@ import { ErrorPageComponent } from '@picthor/layout/error-page/error-page.compon
 import { SidenavComponent } from '@picthor/layout/sidenav/sidenav.component';
 import { ClrDropdownModule, ClrNavigationModule } from '@clr/angular';
 import {
+  angleIcon,
   arrowIcon,
   boatIcon,
+  carIcon,
   ClarityIcons,
+  cogIcon,
   downloadIcon,
   fileIcon,
+  filterIcon,
   folderIcon,
   homeIcon,
+  refreshIcon, sortByIcon,
   storageIcon,
-  refreshIcon,
-  carIcon,
-  cogIcon,
-  filterIcon,
-  angleIcon,
 } from '@cds/core/icon';
 import { CdsIconModule } from '@cds/angular';
 
@@ -51,7 +51,8 @@ export class LayoutModule {
       cogIcon,
       carIcon,
       filterIcon,
-      angleIcon
+      angleIcon,
+      sortByIcon
     );
   }
 }

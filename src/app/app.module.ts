@@ -11,7 +11,7 @@ import { HomeComponent } from '@picthor/home/home.component';
 import { SharedModule } from '@picthor/shared/shared.module';
 import { DirectoriesService } from '@picthor/directory/directory.service';
 import { FileDataService } from '@picthor/file-data/file-data.service';
-import { FileDataListComponent } from '@picthor/file-data/file-data-grid/file-data-list.component';
+import { FileDataGridComponent } from '@picthor/file-data/file-data-grid/file-data-grid.component';
 import { RootsComponent } from '@picthor/roots/roots.component';
 import { RootCardComponent } from '@picthor/roots/root-card.component';
 import { NotificationsService } from '@picthor/notifications/notifications.service';
@@ -22,13 +22,16 @@ import { Observable } from 'rxjs';
 import { environment } from '../environments/environment';
 import { LazyLoadImageModule } from 'ng-lazyload-image';
 import {
-  ClrDropdownModule,
+  ClrComboboxModule,
+  ClrDropdownModule, ClrInputModule,
   ClrModalModule,
   ClrProgressBarModule,
   ClrSignpostModule,
   ClrSpinnerModule,
 } from '@clr/angular';
 import { FileDataModalComponent } from '@picthor/file-data/file-data-modal/file-data-modal.component';
+import { FileDataGridSortComponent } from '@picthor/file-data/file-data-grid-sort/file-data-grid-sort.component';
+import { FormsModule } from '@angular/forms';
 
 function initializeAppEnv(httpClient: HttpClient): () => Observable<any> {
   return () =>
@@ -44,7 +47,8 @@ function initializeAppEnv(httpClient: HttpClient): () => Observable<any> {
     AppComponent,
     DirectoryComponent,
     HomeComponent,
-    FileDataListComponent,
+    FileDataGridComponent,
+    FileDataGridSortComponent,
     RootsComponent,
     RootCardComponent,
     FileDataModalComponent,
@@ -66,6 +70,9 @@ function initializeAppEnv(httpClient: HttpClient): () => Observable<any> {
     LazyLoadImageModule,
     ClrSpinnerModule,
     ClrDropdownModule,
+    ClrComboboxModule,
+    ClrInputModule,
+    FormsModule,
   ],
   providers: [
     DirectoriesService,

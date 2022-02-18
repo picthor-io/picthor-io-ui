@@ -1,10 +1,10 @@
-import { Component, HostListener, Input, OnChanges, OnInit } from '@angular/core';
+import { Component, HostListener, Input, OnInit } from '@angular/core';
 import { RouteParams } from '@picthor/abstract/route-params';
 import { FileDataService } from '@picthor/file-data/file-data.service';
 import { FileData } from '@picthor/file-data/file-data';
-import { PagedEntities } from '@picthor/abstract/paged-entities';
-import { fromEvent, merge, Observable, of, Subject } from 'rxjs';
+import { merge, Observable, Subject } from 'rxjs';
 import { concatMap, debounceTime, distinct, filter, map, scan, startWith, tap } from 'rxjs/operators';
+import { FilterAndSortService, SortsAndFilters, } from '@picthor/file-data/file-data-grid-sort/filter-and-sort.service';
 
 export class Options {
   SHOW_ADDED_ON?: boolean;
@@ -12,15 +12,16 @@ export class Options {
 }
 
 @Component({
-  selector: 'app-file-data-list',
-  templateUrl: 'file-data-list.component.html',
-  styleUrls: ['file-data-list.component.css'],
+  selector: 'app-file-data-grid',
+  templateUrl: 'file-data-grid.component.html',
+  styleUrls: ['file-data-grid.component.css'],
 })
-export class FileDataListComponent implements OnInit {
+export class FileDataGridComponent implements OnInit {
   currentPage = 1;
   totalElements = 0;
   totalPages = 0;
   pageSize = 24;
+  loading = true;
   pagesLoaded: number[] = [];
   files$!: Observable<FileData[]>;
   allFiles: FileData[] = [];
@@ -32,8 +33,7 @@ export class FileDataListComponent implements OnInit {
   modalHasNext = false;
   modalHasPrevious = false;
 
-  private filterData: { field: string; value: any }[] = [];
-  private sortData: { field: string; dir: string }[] = [];
+  filtersData!: SortsAndFilters;
 
   @Input()
   public options!: Options;
@@ -46,11 +46,6 @@ export class FileDataListComponent implements OnInit {
   private loadNextPage$ = new Subject<boolean>();
   private pageLoaded$ = new Subject<boolean>();
   private windowScrolled$ = new Subject<Event>();
-
-  @HostListener('window:scroll', [])
-  onScroll() {
-    this.windowScrolled$.next();
-  }
 
   // emmit event when page bottom almost reached
   private bottomReached$ = this.windowScrolled$.pipe(
@@ -98,23 +93,31 @@ export class FileDataListComponent implements OnInit {
     )
   );
 
-  constructor(protected fileDataService: FileDataService) {}
+  constructor(protected fileDataService: FileDataService, protected sortService: FilterAndSortService) {}
 
-  @Input()
-  set sort(sort: { field: string; dir: string }[]) {
-    this.sortData = sort;
-    this.reset();
+  ngOnInit(): void {
+    this.options = Object.assign(this.defaultOptions, this.options);
+    this.sortService.sort$.subscribe((sortsAndFilters) => {
+      this.filtersData = sortsAndFilters;
+      this.reset();
+    });
+  }
+
+  @HostListener('window:scroll', [])
+  onScroll() {
+    this.windowScrolled$.next();
   }
 
   @Input()
-  set filter(filterData: { field: string; value: any }[]) {
-    this.filterData = filterData;
+  set filters(sortsAndFilters: SortsAndFilters) {
+    this.filtersData = sortsAndFilters;
     this.reset();
   }
 
   private reset() {
     // listen on next page number to be loaded
     this.allFiles = [];
+    this.loading = true;
     this.files$ = this.pageToLoad$.pipe(
       // load first page always
       startWith(1),
@@ -129,8 +132,8 @@ export class FileDataListComponent implements OnInit {
             new RouteParams({
               pageNum: page,
               pageSize: this.pageSize,
-              filter: this.filterData,
-              sort: this.sortData,
+              filter: this.filtersData?.filterBy,
+              sort: this.filtersData?.sortBy,
             })
           )
           .pipe(
@@ -148,15 +151,12 @@ export class FileDataListComponent implements OnInit {
         acc.push(...curr);
         this.allFiles.push(...curr);
         this.updatePrevNext();
+        this.loading = false;
         return acc;
       }, []),
       // emit page loaded event
       tap(() => this.pageLoaded$.next())
     );
-  }
-
-  ngOnInit(): void {
-    this.options = Object.assign(this.defaultOptions, this.options);
   }
 
   showModal(file: FileData, index: number) {

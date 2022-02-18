@@ -14,6 +14,10 @@ export class FileDataService extends AbstractEntityService<FileData> {
     return this.get('/' + id + '/meta');
   }
 
+  getExtensions() {
+    return this.get('/extensions');
+  }
+
   preloadThumb(fileData: FileData, size: number) {
     let previewUrl = FileData.previewUrl(fileData, size);
     return this.http.get(previewUrl, { responseType: 'blob' }).pipe(map((_) => previewUrl));

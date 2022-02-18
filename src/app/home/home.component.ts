@@ -3,7 +3,11 @@ import { DirectoriesService } from '@picthor/directory/directory.service';
 import { Directory } from '@picthor/directory/directory';
 import { Observable } from 'rxjs';
 import { FileDataService } from '@picthor/file-data/file-data.service';
-import { SorterService } from '@picthor/sorter.service';
+import {
+  FilterAndSortService,
+  SortParams,
+  SortsAndFilters,
+} from '@picthor/file-data/file-data-grid-sort/filter-and-sort.service';
 
 @Component({
   selector: 'app-home',
@@ -12,21 +16,20 @@ import { SorterService } from '@picthor/sorter.service';
 export class HomeComponent implements OnInit {
   roots$?: Observable<Directory[]>;
 
-  sortOption!: string;
-  sortDir!: string;
+  public filters: SortsAndFilters;
 
   constructor(
     protected directoriesService: DirectoriesService,
     protected fileDataService: FileDataService,
-    protected sortService: SorterService
-  ) {}
+    protected sortService: FilterAndSortService
+  ) {
+    this.filters = { sortBy: [], filterBy: [] };
+  }
 
   ngOnInit(): void {
-    this.sortService.sort$.subscribe((newSort) => {
-      this.sortOption = newSort[0];
-      this.sortDir = newSort[1];
+    this.sortService.sort$.subscribe((sortAndFilter) => {
+      this.filters = sortAndFilter;
     });
-
     this.roots$ = this.directoriesService.roots$;
   }
 }

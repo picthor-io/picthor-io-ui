@@ -14,14 +14,14 @@ import { HttpClient } from '@angular/common/http';
   templateUrl: 'directory.component.html',
 })
 export class DirectoryComponent implements OnInit {
-  @HostListener('window:keyup', ['$event'])
-  keyEvent(event: KeyboardEvent) {
-    if (event.code == 'Backspace') {
-      if (this.directory?.parentId) {
-        this.router.navigateByUrl('directories/' + this.directory.parentId);
-      }
-    }
-  }
+  // @HostListener('window:keyup', ['$event'])
+  // keyEvent(event: KeyboardEvent) {
+  //   if (event.code == 'Backspace') {
+  //     if (this.directory?.parentId) {
+  //       this.router.navigateByUrl('directories/' + this.directory.parentId);
+  //     }
+  //   }
+  // }
 
   routeSub: any;
   id?: number;
