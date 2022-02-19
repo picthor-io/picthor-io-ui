@@ -20,17 +20,29 @@
   </div>
   <div class="clr-col-lg-auto">
     <clr-input-container>
-      <input [ngModel]="fileNameFilter" (ngModelChange)="inputChanged.next($event)" clrInput placeholder="File Name" />
+      <input
+        [ngModel]="fileNameFilter"
+        (ngModelChange)="fileNameChanged.next($event)"
+        clrInput
+        placeholder="File Name"
+      />
     </clr-input-container>
   </div>
   <div class="clr-col-lg-auto">
     <clr-combobox-container>
-      <clr-combobox clrMulti="true" placeholder="Extension">
+      <clr-combobox
+        (ngModelChange)="extensionsChanged.next($event)"
+        [ngModel]="extensionsFilter"
+        clrMulti="true"
+        placeholder="Extension"
+      >
         <ng-container *clrOptionSelected="let selected">
           {{ selected }}
         </ng-container>
         <clr-options>
-          <clr-option *clrOptionItems="let ext of extensions$ | async" [clrValue]="ext">.{{ ext }}</clr-option>
+          <clr-option *clrOptionItems="let ext of (extensions$ | async)!" [clrValue]="ext.extension"
+            >.{{ ext.extension }} ({{ ext.count }})</clr-option
+          >
         </clr-options>
       </clr-combobox>
     </clr-combobox-container>

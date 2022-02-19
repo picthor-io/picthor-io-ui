@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { AbstractEntityService } from '@picthor/abstract/abstract-entity.service';
 import { FileData } from '@picthor/file-data/file-data';
 import { map } from 'rxjs/operators';
+import { Observable } from 'rxjs';
 
 @Injectable()
 export class FileDataService extends AbstractEntityService<FileData> {
@@ -14,8 +15,8 @@ export class FileDataService extends AbstractEntityService<FileData> {
     return this.get('/' + id + '/meta');
   }
 
-  getExtensions() {
-    return this.get('/extensions');
+  getExtensions(): Observable<{ extension: string; count: number }[]> {
+    return this.http.get<{ extension: string; count: number }[]>(this.apiUrl + this.basePath + '/extensions');
   }
 
   preloadThumb(fileData: FileData, size: number) {
