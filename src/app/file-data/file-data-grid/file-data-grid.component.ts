@@ -118,6 +118,7 @@ export class FileDataGridComponent implements OnInit {
   private reset() {
     // listen on next page number to be loaded
     this.allFiles = [];
+    this.pagesLoaded = [];
     this.loading = true;
     this.files$ = this.pageToLoad$.pipe(
       // load first page always

@@ -1,4 +1,4 @@
-import { Component, HostListener, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { FileDataService } from '@picthor/file-data/file-data.service';
 import { FileData } from '@picthor/file-data/file-data';
@@ -8,7 +8,7 @@ import { Observable, of } from 'rxjs';
 import { map, shareReplay, tap } from 'rxjs/operators';
 import { PagedEntities } from '@picthor/abstract/paged-entities';
 import { HttpClient } from '@angular/common/http';
-import { FilterParams, SortsAndFilters } from '@picthor/file-data/file-data-grid-sort/filter-and-sort.service';
+import { SortsAndFilters } from '@picthor/file-data/file-data-grid-sort/filter-and-sort.service';
 
 @Component({
   selector: 'app-directory',

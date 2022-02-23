@@ -4,9 +4,9 @@
   </div>
 </div>
 
-<div class="clr-row" *ngIf="files$">
+<div class="clr-row" *ngIf="(files$ | async) as files">
   <div
-    *ngFor="let fileData of files$ | async; let i = index"
+    *ngFor="let fileData of files; let i = index"
     class="clr-align-self-start clr-col-xl-2 clr-col-lg-3 clr-col-md-6 clr-col-sm-12"
   >
     <div (click)="showModal(fileData, i)" class="card clickable" title="{{ fileData.fileName }}">

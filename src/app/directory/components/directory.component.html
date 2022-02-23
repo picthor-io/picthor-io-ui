@@ -11,7 +11,7 @@
 <div class="content-area">
   <div class="clr-row">
     <div class="clr-col-12">
-      <div *ngIf="directory$ | async as directory" cds-layout="horizontal gap:md align:vertical-center p-x:md">
+      <div *ngIf="(directory$ | async) as directory" cds-layout="horizontal gap:md align:vertical-center p-x:md">
         <cds-button routerLink="/home" action="outline">
           <cds-icon shape="home"></cds-icon>
         </cds-button>
@@ -24,7 +24,7 @@
     </div>
   </div>
 
-  <div style="margin-bottom: 20px" class="clr-row" *ngIf="children$ | async as children">
+  <div style="margin-bottom: 20px" class="clr-row" *ngIf="(children$ | async) as children">
     <div *ngFor="let child of children; let i = index" class="clr-col-xl-2 clr-col-lg-3 clr-col-md-6 clr-col-sm-12">
       <div routerLink="/directories/{{ child.id }}" class="card clickable">
         <div class="card-block">

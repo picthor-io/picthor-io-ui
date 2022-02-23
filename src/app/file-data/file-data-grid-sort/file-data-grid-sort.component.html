@@ -29,7 +29,7 @@
     </clr-input-container>
   </div>
   <div class="clr-col-lg-auto">
-    <clr-combobox-container>
+    <clr-combobox-container *ngIf="(extensions$ | async) as extensions">
       <clr-combobox
         (ngModelChange)="extensionsChanged.next($event)"
         [ngModel]="extensionsFilter"
@@ -40,8 +40,8 @@
           {{ selected }}
         </ng-container>
         <clr-options>
-          <clr-option *clrOptionItems="let ext of (extensions$ | async)!" [clrValue]="ext.extension"
-            >.{{ ext.extension }} ({{ ext.count }})</clr-option
+          <clr-option *clrOptionItems="let ext of extensions" [clrValue]="ext.extension"
+            >.{{ ext.extension }}</clr-option
           >
         </clr-options>
       </clr-combobox>
