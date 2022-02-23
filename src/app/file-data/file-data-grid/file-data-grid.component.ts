@@ -4,7 +4,7 @@ import { FileDataService } from '@picthor/file-data/file-data.service';
 import { FileData } from '@picthor/file-data/file-data';
 import { merge, Observable, Subject } from 'rxjs';
 import { concatMap, debounceTime, distinct, filter, map, scan, startWith, tap } from 'rxjs/operators';
-import { FilterAndSortService, SortsAndFilters, } from '@picthor/file-data/file-data-grid-sort/filter-and-sort.service';
+import { FilterAndSortService, SortsAndFilters } from '@picthor/file-data/file-data-grid-sort/filter-and-sort.service';
 
 export class Options {
   SHOW_ADDED_ON?: boolean;
@@ -22,6 +22,7 @@ export class FileDataGridComponent implements OnInit {
   totalPages = 0;
   pageSize = 24;
   loading = true;
+  imageLoading: number[] = [];
   pagesLoaded: number[] = [];
   files$!: Observable<FileData[]>;
   allFiles: FileData[] = [];
@@ -143,6 +144,9 @@ export class FileDataGridComponent implements OnInit {
               this.totalElements = pagedEntities.pageMetadata.totalElements;
               this.totalPages = pagedEntities.pageMetadata.totalPages;
               return pagedEntities.content;
+            }),
+            tap((files) => {
+              files.forEach((fileData) => this.imageLoading.push(fileData.id));
             })
           );
       }),
@@ -199,5 +203,15 @@ export class FileDataGridComponent implements OnInit {
   private updatePrevNext() {
     this.modalHasNext = this.allFiles.length - 1 > this.modalImageIndex;
     this.modalHasPrevious = this.modalImageIndex > 0;
+  }
+
+  imageLoadStop(id: number) {
+    this.imageLoading = this.imageLoading.filter((i) => {
+      return i !== id;
+    });
+  }
+
+  isImageLoading(id: number) {
+    return this.imageLoading.includes(id);
   }
 }

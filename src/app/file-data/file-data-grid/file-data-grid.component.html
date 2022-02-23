@@ -9,22 +9,33 @@
     *ngFor="let fileData of files$ | async; let i = index"
     class="clr-align-self-start clr-col-xl-2 clr-col-lg-3 clr-col-md-6 clr-col-sm-12"
   >
-    <div (click)="showModal(fileData, i)" class="card clickable">
+    <div (click)="showModal(fileData, i)" class="card clickable" title="{{ fileData.fileName }}">
       <div class="card-header">
         <div class="p5 file-data-card-title">{{ fileData.fileName }}</div>
       </div>
       <div class="card-img">
+        <div
+          [hidden]="!isImageLoading(fileData.id)"
+          class="clr-row clr-justify-content-center clr-align-items-center"
+          style="min-height: 200px"
+        >
+          <div class="clr-col-auto">
+            <clr-spinner [clrSmall]="true"></clr-spinner>
+          </div>
+        </div>
         <img
           class="file-data-img"
           loading="lazy"
+          [ngClass]="{ hidden: isImageLoading(fileData.id) }"
+          (load)="imageLoadStop(fileData.id)"
           alt="{{ fileData.fileName }}"
           src="{{ fileData | fileDataPreview }}"
         />
       </div>
       <div class="card-block">
         <div class="card-text file-data-text">
-          <div class="p5" *ngIf="options.SHOW_ADDED_ON">Added on: {{ fileData.createdAt | appDate }}</div>
           <div class="p5" *ngIf="options.SHOW_INDEX_OFF_TOTAL">{{ i + 1 }} / {{ totalElements }}</div>
+          <!--          <div class="p5" *ngIf="options.SHOW_ADDED_ON">Added on: {{ fileData.createdAt | appDate }}</div>-->
         </div>
       </div>
     </div>
