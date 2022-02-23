@@ -51,7 +51,5 @@
     </div>
   </div>
 
-  <app-file-data-grid
-    [filters]="{ sortBy: [], filterBy: [{ field: 'directory_id', value: this.id }] }"
-  ></app-file-data-grid>
+  <app-file-data-grid *ngIf="filters" [filters]="filters"></app-file-data-grid>
 </div>

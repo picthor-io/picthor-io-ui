@@ -1,8 +1,48 @@
 <div class="content-area">
-  <div cds-layout="horizontal gap:md align:vertical-center p-x:md">
-    <div *ngFor="let directory of roots$ | async" style="min-width: 250px">
+  <div class="clr-row" *ngIf="(roots$ | async) as directories">
+    <div
+      *ngFor="let directory of directories"
+      class="clr-align-self-start clr-col-xl-2 clr-col-lg-3 clr-col-md-6 clr-col-sm-12"
+    >
       <app-root-card [directory]="directory"></app-root-card>
     </div>
-    <!--  <cds-button routerLink="/directories/" action="outline">Add New</cds-button>-->
+  </div>
+  <div class="clr-row">
+    <div class="clr-col" style="margin-top: 20px">
+      <button (click)="addRootForm()" class="btn btn-sm btn-plus">Add Root</button>
+    </div>
   </div>
 </div>
+<clr-modal [clrModalSize]="'l'" [(clrModalOpen)]="rootFormModal">
+  <h3 class="modal-title">Add Root Directory</h3>
+  <div class="modal-body">
+    <form clrForm>
+      <app-form-input
+        [control]="rootForm.get('name')"
+        [maxLength]="50"
+        [required]="true"
+        [label]="'Title'"
+        [helpText]="'Provide a title for this root directory'"
+      ></app-form-input>
+      <app-form-input
+        [control]="rootForm.get('path')"
+        [maxLength]="50"
+        [required]="true"
+        [label]="'Path'"
+        [helpText]="'Provide root directory system path, example: /home/user/Pictures'"
+      ></app-form-input>
+    </form>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-outline" (click)="rootFormModal = false">Cancel</button>
+    <button
+      type="button"
+      class="btn btn-primary"
+      [disabled]="processing || !rootForm.valid"
+      [clrLoading]="processing"
+      (click)="addRootSubmit()"
+    >
+      Add
+    </button>
+  </div>
+</clr-modal>

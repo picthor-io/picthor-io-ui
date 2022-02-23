@@ -8,6 +8,7 @@ import { Observable, of } from 'rxjs';
 import { map, shareReplay, tap } from 'rxjs/operators';
 import { PagedEntities } from '@picthor/abstract/paged-entities';
 import { HttpClient } from '@angular/common/http';
+import { FilterParams, SortsAndFilters } from '@picthor/file-data/file-data-grid-sort/filter-and-sort.service';
 
 @Component({
   selector: 'app-directory',
@@ -35,6 +36,7 @@ export class DirectoryComponent implements OnInit {
   children$?: Observable<Directory[]> = of([]);
   directory$?: Observable<Directory>;
   directory?: Directory;
+  filters?: SortsAndFilters;
 
   constructor(
     private route: ActivatedRoute,
@@ -51,6 +53,13 @@ export class DirectoryComponent implements OnInit {
 
     this.routeSub = this.route.params.subscribe((params) => {
       this.id = +params['id'];
+      this.filters = {
+        sortBy: [],
+        filterBy: [
+          { field: 'directory_id', value: this.id },
+          { field: 'sync_state', value: 'SCANNED' },
+        ],
+      };
       if (this.id) {
         this.directory$ = this.directoriesService.getById(this.id).pipe(
           tap((d) => (this.directory = d)),

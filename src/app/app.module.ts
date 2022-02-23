@@ -23,7 +23,7 @@ import { environment } from '../environments/environment';
 import { LazyLoadImageModule } from 'ng-lazyload-image';
 import {
   ClrComboboxModule,
-  ClrDropdownModule, ClrInputModule,
+  ClrDropdownModule, ClrInputModule, ClrLoadingModule,
   ClrModalModule,
   ClrProgressBarModule,
   ClrSignpostModule,
@@ -73,6 +73,7 @@ function initializeAppEnv(httpClient: HttpClient): () => Observable<any> {
     ClrComboboxModule,
     ClrInputModule,
     FormsModule,
+    ClrLoadingModule,
   ],
   providers: [
     DirectoriesService,

@@ -1,0 +1,22 @@
+<div>
+  <clr-input-container>
+    <label *ngIf="label" [ngClass]="{ 'required-field-label': required }">{{ label }}</label>
+    <input
+      clrInput
+      [formControl]="control"
+      [required]="required"
+      [size]="size"
+      [readOnly]="readonly"
+      style="{{ style }}"
+      maxlength="{{ maxLength }}"
+      minlength="{{ minLength }}"
+      pattern="{{ pattern }}"
+      placeholder="{{ placeholder }}"
+      type="{{ type }}"
+    />
+    <clr-control-helper *ngIf="helpText">{{ helpText }}</clr-control-helper>
+    <clr-control-error *ngFor="let error of control.errors | objectKeys">
+      {{ error | errorMessage }}
+    </clr-control-error>
+  </clr-input-container>
+</div>

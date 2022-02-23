@@ -1,14 +1,23 @@
 <div class="card">
   <div class="card-block">
-    <div class="card-title">{{ directory.name }}</div>
+    <div class="card-title">
+      <div class="clr-row clr-justify-content-between">
+        <div class="clr-col-auto">
+          {{ directory.name }}
+        </div>
+        <div [hidden]="!pollingSyncState" class="clr-col-auto">
+          <clr-spinner [clrSmall]="true"></clr-spinner>
+        </div>
+      </div>
+    </div>
     <div class="card-text">
       <div class="card-media-description">
         <div class="clr-row directory-card-row">
           <div class="clr-col-12">
-                  <span class="p5 directory-card-stats"
-                  >{{ directory.stats.totalDirsNum }} | {{ directory.stats.totalFilesNum }} |
-                    {{ directory.stats.totalSizeBytes | appPrettyBytes }}</span
-                  >
+            <span class="p5 directory-card-stats"
+              >{{ directory.stats.totalDirsNum }} | {{ directory.stats.totalFilesNum }} |
+              {{ directory.stats.totalSizeBytes | appPrettyBytes }}</span
+            >
           </div>
         </div>
       </div>
@@ -42,7 +51,7 @@
       Browse
     </button>
     <button [disabled]="pollingSyncState" (click)="syncDirectory(directory)" type="button" class="btn btn-sm btn-link">
-      Sync
+      {{ pollingSyncState ? 'Syncing' : 'Sync' }}
     </button>
   </div>
 </div>

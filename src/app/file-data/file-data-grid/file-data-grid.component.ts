@@ -123,9 +123,9 @@ export class FileDataGridComponent implements OnInit {
       // load first page always
       startWith(1),
       // filter already loaded pages
-      // filter((page) => {
-      //   return this.pagesLoaded.indexOf(page) == -1;
-      // }),
+      filter((page) => {
+        return this.pagesLoaded.indexOf(page) == -1;
+      }),
       // fetch page data from backend
       concatMap((page) => {
         return this.fileDataService
