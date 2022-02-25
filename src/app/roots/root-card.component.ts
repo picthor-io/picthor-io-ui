@@ -3,7 +3,7 @@ import { DirectoriesService } from '@picthor/directory/directory.service';
 import { Directory } from '@picthor/directory/directory';
 import { Subscription, timer } from 'rxjs';
 import { BatchJob } from '@picthor/batch-job/batch-job';
-import { filter, finalize, mergeMap, takeWhile, tap } from 'rxjs/operators';
+import { delay, filter, finalize, mergeMap, takeWhile, tap } from 'rxjs/operators';
 
 @Component({
   selector: 'app-root-card',
@@ -17,7 +17,7 @@ export class RootCardComponent implements OnDestroy {
 
   pollingSyncState = false;
   poll$?: Subscription;
-  pollObservable = timer(0, 1000).pipe(
+  pollObservable = timer(0, 500).pipe(
     mergeMap(() => this.directoriesService.getSyncJobs(this.directory)),
     finalize(() => {
       this.pollingSyncState = false;
@@ -27,6 +27,8 @@ export class RootCardComponent implements OnDestroy {
       this.syncJobs = jobs;
       this.pollingSyncState = !!jobs.find(j => j.state == 'PROCESSING');
     }),
+    // wait 5 second while backend updates dir stats
+    delay(5000),
     mergeMap(() => this.directoriesService.getById(this.directory.id)),
     tap((dir) => {
       this.directory = dir;
