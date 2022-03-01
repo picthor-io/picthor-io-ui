@@ -10,7 +10,15 @@ export class HomeComponent implements OnInit {
   public filters: SortsAndFilters;
 
   constructor(protected fileDataService: FileDataService, protected sortService: FilterAndSortService) {
-    this.filters = { sortBy: [], filterBy: [{ field: 'sync_state', value: 'SCANNED' }] };
+    this.filters = {
+      sortBy: [
+        {
+          field: 'created_at',
+          dir: 'DESC',
+        },
+      ],
+      filterBy: [{ field: 'sync_state', value: 'SCANNED' }],
+    };
   }
 
   ngOnInit(): void {

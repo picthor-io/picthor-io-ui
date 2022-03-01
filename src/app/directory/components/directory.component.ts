@@ -54,7 +54,12 @@ export class DirectoryComponent implements OnInit {
     this.routeSub = this.route.params.subscribe((params) => {
       this.id = +params['id'];
       this.filters = {
-        sortBy: [],
+        sortBy: [
+          {
+            field: 'created_at',
+            dir: 'DESC',
+          },
+        ],
         filterBy: [
           { field: 'directory_id', value: this.id },
           { field: 'sync_state', value: 'SCANNED' },
