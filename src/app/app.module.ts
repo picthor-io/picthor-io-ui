@@ -32,6 +32,7 @@ import {
 import { FileDataModalComponent } from '@picthor/file-data/file-data-modal/file-data-modal.component';
 import { FileDataGridSortComponent } from '@picthor/file-data/file-data-grid-sort/file-data-grid-sort.component';
 import { FormsModule } from '@angular/forms';
+import { FileDataMetaComponent } from './file-data/file-data-meta/file-data-meta.component';
 
 function initializeAppEnv(httpClient: HttpClient): () => Observable<any> {
   return () =>
@@ -52,6 +53,7 @@ function initializeAppEnv(httpClient: HttpClient): () => Observable<any> {
     RootsComponent,
     RootCardComponent,
     FileDataModalComponent,
+    FileDataMetaComponent,
   ],
   imports: [
     BrowserModule,

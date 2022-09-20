@@ -165,6 +165,7 @@ export class FileDataGridComponent implements OnInit {
   }
 
   showModal(file: FileData, index: number) {
+    document.getElementsByTagName("body")[0].style.overflow = 'hidden';
     this.modalVisible = true;
     this.modalImageIndex = index;
     this.modalFile = file;
@@ -214,5 +215,10 @@ export class FileDataGridComponent implements OnInit {
 
   isImageLoading(id: number) {
     return this.imageLoading.includes(id);
+  }
+
+  resetModal() {
+    document.getElementsByTagName("body")[0].style.overflow = 'auto';
+    this.modalVisible = false;
   }
 }

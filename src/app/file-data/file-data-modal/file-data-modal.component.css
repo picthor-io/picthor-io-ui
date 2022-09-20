@@ -53,47 +53,48 @@
   color: #787878;
   background-color: rgba(0, 0, 0, 0.07);
   font-size: 16px;
-  padding: 36px 12px;
   border: none;
   cursor: pointer;
   border-radius: 5px;
+  position: fixed;
+  top: 0;
 
   height: 100%;
-  top: 0;
   width: 100px;
-  z-index: 9999999;
+  z-index: 1051;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
 }
 
-.slider-btn:hover {
-  background-color: rgba(85, 85, 85, 0.39);
+.slider-btn-svg{
+  position:relative;
+  vertical-align: baseline;
 }
 
+.slider-btn-right {
+  right: 0;
+}
+
+.slider-btn-left {
+  left: 0;
+}
+
+/*small screen*/
 @media screen and (max-width: 1200px) {
-  .slider-btn-right {
-    position: fixed;
-    right: 0;
-    top: 0;
-    padding: 100% 4px 100% 30px;
+  .slider-btn > * {
+    display: none
   }
 
-  .slider-btn-left {
-    position: fixed;
-    left: 0;
-    top: 0;
-    padding: 100% 30px 100% 4px;
+  .slider-btn {
+    background-color: rgba(0, 0, 0, 0);
+    transform: translateY(-100px);
   }
 }
 @media screen and (min-width: 1200px) {
-  .slider-btn-right {
-    position: fixed;
-    right: 0;
-    padding: 250px 36px;
-  }
-
-  .slider-btn-left {
-    position: fixed;
-    left: 0px;
-    padding: 250px 36px;
+  .slider-btn:hover {
+    background-color: rgba(85, 85, 85, 0.39);
   }
 }
 
@@ -149,3 +150,62 @@
 *::-webkit-scrollbar-thumb {
   background-color: #acbac3;
 }
+
+
+.phone_backdrop{
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  background-color: rgba(0, 0, 0, 1);
+}
+
+.phone_fullscreen {
+  display: flex;
+  justify-content: flex-end;
+  align-items: stretch;
+  height: 100%;
+  flex-direction: column;
+  align-content: flex-end;
+  flex-wrap: nowrap;
+}
+
+.phone_fullscreen-part{
+  height:100%;
+}
+
+.phone_fullscreen-part > *{
+  height:100%;
+}
+.phone_fullscreen-image {
+  width: 100%;
+
+}
+
+.phone_fullscreen-image-transition{
+  -webkit-transition: 1s;
+  -moz-transition: 1s;
+  -ms-transition: 1s;
+  -o-transition: 1s;
+  transition: 1s;
+}
+
+
+.phone_actions{
+  display: flex;
+  flex-direction: column;
+  flex-wrap: nowrap;
+  align-content: stretch;
+  justify-content: flex-end;
+  align-items: center;
+  padding: 20px 0;
+}
+
+.phone_close_fixed{
+  position: fixed;
+  right: 2em;
+  top: 2em;
+  z-index: 1052;
+}
+

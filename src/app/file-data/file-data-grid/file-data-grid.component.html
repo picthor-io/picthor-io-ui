@@ -7,7 +7,7 @@
 <div class="clr-row" *ngIf="(files$ | async) as files">
   <div
     *ngFor="let fileData of files; let i = index"
-    class="clr-align-self-start clr-col-xl-2 clr-col-lg-3 clr-col-md-6 clr-col-sm-12"
+    class="clr-align-self-start clr-col-xl-2 clr-col-lg-3 clr-col-md-6 clr-col-sm-12 clr-col-6"
   >
     <div (click)="showModal(fileData, i)" class="card clickable" title="{{ fileData.fileName }}">
       <div class="card-header">
@@ -59,7 +59,7 @@
   [fileData$]="modalFileData$"
   [hasNext]="modalHasNext"
   [hasPrevious]="modalHasPrevious"
-  (closed)="modalVisible = false"
+  (closed)="resetModal()"
   (initialized)="modalInitialized()"
   (showNext)="modalNext()"
   (showPrevious)="modalPrevious()"

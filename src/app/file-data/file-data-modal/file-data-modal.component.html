@@ -1,9 +1,9 @@
 <ng-container>
-  <div class="slider-btn slider-btn-left" *ngIf="hasPrevious" (click)="previous()">
-    <cds-icon size="xl" shape="angle" direction="left"></cds-icon>
+  <div class='slider-btn slider-btn-left' *ngIf='hasPrevious' (click)='previous()'>
+    <cds-icon size='xl' shape='angle' direction='left' class="slider-btn-svg"></cds-icon>
   </div>
   <div class="slider-btn slider-btn-right" *ngIf="hasNext" (click)="next()">
-    <cds-icon size="xl" shape="angle" direction="right"></cds-icon>
+    <cds-icon size="xl" shape="angle" direction="right" class="slider-btn-svg"></cds-icon>
   </div>
 </ng-container>
 <clr-modal
@@ -11,10 +11,11 @@
   [(clrModalOpen)]="isOpen"
   [clrModalSize]="'xl'"
   [clrModalStaticBackdrop]="false"
+  *ngIf='desktop'
 >
   <h3 class="modal-title" *ngIf="fileData">{{ fileData.fileName }}</h3>
 
-  <div class="modal-body" (touchstart)="swipe($event, 'start')" (touchend)="swipe($event, 'end')">
+  <div class="modal-body" >
     <div [ngClass]="{ 'height-100': !loading }" class="clr-row height-100" *ngIf="fileData">
       <div class="clr-col-xl-9 clr-col-sm-12 height-100">
         <div class="modal-image-center height-100">
@@ -30,7 +31,7 @@
               src="{{ thumbPath }}"
               alt="{{ fileData.fileName }}"
               (load)="loading = false"
-              (click)="toggleFull()"
+              (click)="toggleFull($event)"
               [ngClass]="{ 'fullscreen-image': isFull, 'modal-image': !isFull }"
             />
           </div>
@@ -38,61 +39,7 @@
       </div>
       <div class="clr-col-xl-3 clr-col-sm-12">
         <div class="row">
-          <table *ngIf="meta" class="table table-vertical table-compact" style="margin-top: 0">
-            <tbody>
-              <tr *ngIf="meta.DateTimeOriginal">
-                <th>Original Date</th>
-                <td>{{ meta.DateTimeOriginal }}</td>
-              </tr>
-              <tr *ngIf="fileData.sizeBytes">
-                <th>File Size</th>
-                <td>{{ fileData.sizeBytes | appPrettyBytes }}</td>
-              </tr>
-              <tr *ngIf="meta.ImageWidth">
-                <th>Width</th>
-                <td>{{ meta.ImageWidth }}</td>
-              </tr>
-              <tr *ngIf="meta.ImageHeight">
-                <th>Height</th>
-                <td>{{ meta.ImageHeight }}</td>
-              </tr>
-              <tr *ngIf="fileData.createdAt">
-                <th>File Created</th>
-                <td>{{ fileData.createdAt | appDate }}</td>
-              </tr>
-              <tr *ngIf="!meta.Make && meta.Software">
-                <th>Software</th>
-                <td>{{ meta.Software }}</td>
-              </tr>
-              <tr *ngIf="meta.Make">
-                <th>Make</th>
-                <td>{{ meta.Make }}</td>
-              </tr>
-              <tr *ngIf="meta.Model">
-                <th>Model</th>
-                <td>{{ meta.Model }}</td>
-              </tr>
-              <tr *ngIf="meta.LensID">
-                <th>Lens</th>
-                <td>{{ meta.LensID }}</td>
-              </tr>
-              <tr *ngIf="meta.FocalLength">
-                <th>Focal Length</th>
-                <td>
-                  {{ meta.FocalLength }}
-                  <span *ngIf="meta.FocalLengthIn35mmFormat">({{ meta.FocalLengthIn35mmFormat }} eq)</span>
-                </td>
-              </tr>
-              <tr *ngIf="meta.ISO">
-                <th>ISO</th>
-                <td>{{ meta.ISO }}</td>
-              </tr>
-              <tr *ngIf="meta.Aperture">
-                <th>Aperture</th>
-                <td>{{ meta.Aperture }}</td>
-              </tr>
-            </tbody>
-          </table>
+          <app-file-data-meta [fileData]='fileData'></app-file-data-meta>
           <button title="Download Original" (click)="downloadOriginal(fileData)" class="btn btn-icon">
             <cds-icon shape="download"></cds-icon>
           </button>
@@ -102,3 +49,53 @@
     <div class="close-area" (click)="close()"></div>
   </div>
 </clr-modal>
+
+
+<div  *ngIf='!desktop' class='phone_close_fixed' (click)='close($event)'>
+    <cds-icon shape="times" status='info' size='md'></cds-icon>
+  </div>
+
+<div *ngIf='!desktop'
+     class='phone_backdrop'
+     (touchstart)="swipe($event, 'start')"
+     (touchend)="swipe($event, 'end')"
+     (touchmove)="swipe($event, 'move')"
+      #phoneBackrop>
+
+  <div *ngIf='fileData' class='phone_fullscreen'>
+    <div class='phone_fullscreen-part'>
+        <div
+             (click)='close()'
+        ></div>
+    </div>
+    <div class='phone_fullscreen-part'>
+      <div *ngIf='loading' style='text-align: center;'>
+        <clr-spinner style='margin: 100px;' ></clr-spinner>
+      </div>
+      <img
+        #image
+        *ngIf='thumbPath'
+        src='{{ thumbPath }}'
+        alt='{{ fileData.fileName }}'
+        (load)='loading = false'
+        (click)='toggleFull($event);'
+        [ngClass]="'phone_fullscreen-image'"
+        [ngStyle]="{'transform': 'translate(' + phoneTranslateX + ', ' + phoneTranslateY + ')'}"
+      />
+    </div>
+    <div class='phone_fullscreen-part' *ngIf='isPhoneMetaDisplay' >
+      <app-file-data-meta [fileData]='fileData'> </app-file-data-meta>
+    </div>
+
+    <div class='phone_fullscreen-part'>
+      <div class='phone_actions' (click)='close()'>
+          <div class="btn-group btn-primary">
+            <button title="Show Info" (click)="requestMeta($event)" class="btn">Details</button>
+            <button title="Download Original" (click)="downloadOriginal(fileData, $event)" class="btn">Download</button>
+          </div>
+      </div>
+    </div>
+  </div>
+
+
+</div>
