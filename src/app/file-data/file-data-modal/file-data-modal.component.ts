@@ -66,24 +66,6 @@ export class FileDataModalComponent implements OnInit {
 
   loading: boolean = true;
   imgRotation: number = 0;
-  meta?: {
-    Software?: string;
-    GPSAltitude?: string;
-    GPSLongitude?: string;
-    GPSLatitude?: string;
-    LensID?: string;
-    ImageWidth?: string;
-    ImageHeight?: string;
-    FocalLength?: string;
-    FocalLengthIn35mmFormat?: string;
-    ISO?: string;
-    Aperture?: string;
-    Model?: string;
-    Make?: string;
-    ShutterSpeed?: string;
-    CreateDate?: string;
-    DateTimeOriginal?: string;
-  };
   fileData?: FileData;
   thumbPath?: string;
 
@@ -171,6 +153,7 @@ export class FileDataModalComponent implements OnInit {
           this.phoneTranslateY = direction[1] + 'px';
           this.phoneBackdrop.nativeElement.style.backgroundColor = `rgba(0, 0, 0, ${1 - (Math.abs(direction[1]) / 100)})`
         }
+        this.isDragDirectionRegistered = true;
       } else{
         if(!this.isVerticalDrag) {
           this.phoneTranslateX = direction[0] + 'px';
