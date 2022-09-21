@@ -1,0 +1,55 @@
+<table *ngIf='meta' class='table table-vertical table-compact'>
+  <tbody>
+  <tr *ngIf='meta.DateTimeOriginal'>
+    <th>Original Date</th>
+    <td>{{ meta.DateTimeOriginal }}</td>
+  </tr>
+  <tr *ngIf='fileData.sizeBytes'>
+    <th>File Size</th>
+    <td>{{ fileData.sizeBytes | appPrettyBytes }}</td>
+  </tr>
+  <tr *ngIf='meta.ImageWidth'>
+    <th>Width</th>
+    <td>{{ meta.ImageWidth }}</td>
+  </tr>
+  <tr *ngIf='meta.ImageHeight'>
+    <th>Height</th>
+    <td>{{ meta.ImageHeight }}</td>
+  </tr>
+  <tr *ngIf='fileData.createdAt'>
+    <th>File Created</th>
+    <td>{{ fileData.createdAt | appDate }}</td>
+  </tr>
+  <tr *ngIf='!meta.Make && meta.Software'>
+    <th>Software</th>
+    <td>{{ meta.Software }}</td>
+  </tr>
+  <tr *ngIf='meta.Make'>
+    <th>Make</th>
+    <td>{{ meta.Make }}</td>
+  </tr>
+  <tr *ngIf='meta.Model'>
+    <th>Model</th>
+    <td>{{ meta.Model }}</td>
+  </tr>
+  <tr *ngIf='meta.LensID'>
+    <th>Lens</th>
+    <td>{{ meta.LensID }}</td>
+  </tr>
+  <tr *ngIf='meta.FocalLength'>
+    <th>Focal Length</th>
+    <td>
+      {{ meta.FocalLength }}
+      <span *ngIf='meta.FocalLengthIn35mmFormat'>({{ meta.FocalLengthIn35mmFormat }} eq)</span>
+    </td>
+  </tr>
+  <tr *ngIf='meta.ISO'>
+    <th>ISO</th>
+    <td>{{ meta.ISO }}</td>
+  </tr>
+  <tr *ngIf='meta.Aperture'>
+    <th>Aperture</th>
+    <td>{{ meta.Aperture }}</td>
+  </tr>
+  </tbody>
+</table>

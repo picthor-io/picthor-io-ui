@@ -8,9 +8,14 @@
 }
 
 .file-data-img {
-  min-height: 200px;
-  max-height: 200px;
+  max-height: fit-content;
   object-fit: scale-down;
+}
+
+@media screen and (min-width: 1100px) {
+  .file-data-img {
+    max-height: 130px;
+  }
 }
 
 .hidden {

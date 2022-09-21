@@ -1,4 +1,4 @@
-import { Component, EventEmitter, HostListener, Input, OnInit, Output, ViewChild } from '@angular/core';
+import { Component, ElementRef, EventEmitter, HostListener, Input, OnInit, Output, ViewChild } from '@angular/core';
 import { FileData } from '@picthor/file-data/file-data';
 import { Observable } from 'rxjs';
 import { FileDataService } from '@picthor/file-data/file-data.service';
@@ -22,7 +22,7 @@ export class FileDataModalComponent implements OnInit {
       this.rotateImg();
     }
     if (event.code == 'Space') {
-      this.toggleFull();
+      this.toggleFull(event);
     }
   }
 
@@ -36,6 +36,9 @@ export class FileDataModalComponent implements OnInit {
 
   @ViewChild('image')
   image: any;
+
+  @ViewChild('phoneBackrop')
+  phoneBackdrop!: ElementRef;
 
   @Input()
   imageId!: number;
@@ -63,29 +66,16 @@ export class FileDataModalComponent implements OnInit {
 
   loading: boolean = true;
   imgRotation: number = 0;
-  meta?: {
-    Software?: string;
-    GPSAltitude?: string;
-    GPSLongitude?: string;
-    GPSLatitude?: string;
-    LensID?: string;
-    ImageWidth?: string;
-    ImageHeight?: string;
-    FocalLength?: string;
-    FocalLengthIn35mmFormat?: string;
-    ISO?: string;
-    Aperture?: string;
-    Model?: string;
-    Make?: string;
-    ShutterSpeed?: string;
-    CreateDate?: string;
-    DateTimeOriginal?: string;
-  };
   fileData?: FileData;
   thumbPath?: string;
 
   isFull?: boolean;
-
+  desktop: boolean = true;
+  isPhoneMetaDisplay: boolean = false;
+  phoneTranslateY: string = '0';
+  phoneTranslateX: string = '0';
+  isVerticalDrag!: boolean;
+  isDragDirectionRegistered: boolean = false;
   constructor(protected fileDataService: FileDataService) {}
 
   ngOnInit(): void {
@@ -93,14 +83,17 @@ export class FileDataModalComponent implements OnInit {
       this.fileData = fileData;
       this.fileDataService.preloadThumb(this.fileData, 1080).subscribe((path) => (this.thumbPath = path));
       this.isOpen = true;
-      this.fileDataService.getMeta(fileData.id).subscribe((meta) => {
-        this.meta = meta;
-      });
     });
     this.initialized.next();
+
+    if(window.outerWidth < 768){
+      this.desktop = false;
+    }
+
   }
 
-  downloadOriginal(modalImage: FileData) {
+  downloadOriginal(modalImage: FileData, e?: Event) {
+    e?.stopPropagation();
     FileSaver.saveAs(FileData.originalFileUrl(modalImage), modalImage?.fileName);
   }
 
@@ -118,9 +111,13 @@ export class FileDataModalComponent implements OnInit {
     this.fileData = undefined;
     this.thumbPath = undefined;
     this.isFull = false;
+    this.image.nativeElement.style.transform = '';
+    this.phoneTranslateY = '0';
+    this.phoneTranslateX = '0';
   }
 
-  close() {
+  close(e?: Event) {
+    e?.stopPropagation();
     this.closed.next();
   }
 
@@ -134,20 +131,54 @@ export class FileDataModalComponent implements OnInit {
     this.showPrevious.emit();
   }
 
-  toggleFull() {
+  toggleFull(e: Event) {
+    e.stopPropagation();
     this.isFull = !this.isFull;
   }
 
   swipe(e: TouchEvent, when: string) {
-    const coord: [number, number] = [e.changedTouches[0].pageX, e.changedTouches[0].pageY];
+    const coord: [number, number] = [e.changedTouches[0].clientX, e.changedTouches[0].clientY];
     const time = new Date().getTime();
     if (when === 'start') {
       this.swipeCoord = coord;
       this.swipeTime = time;
-    } else if (when === 'end') {
+    } else if(when === 'move'){
       const direction = [coord[0] - this.swipeCoord[0], coord[1] - this.swipeCoord[1]];
+      if(!this.isDragDirectionRegistered) {
+        if (Math.abs(direction[0]) > Math.abs(direction[1])) {
+          this.isVerticalDrag = false;
+          this.phoneTranslateX = direction[0] + 'px';
+        } else {
+          this.isVerticalDrag = true;
+          this.phoneTranslateY = direction[1] + 'px';
+          this.phoneBackdrop.nativeElement.style.backgroundColor = `rgba(0, 0, 0, ${1 - (Math.abs(direction[1]) / 100)})`
+        }
+        this.isDragDirectionRegistered = true;
+      } else{
+        if(!this.isVerticalDrag) {
+          this.phoneTranslateX = direction[0] + 'px';
+        } else{
+          this.phoneTranslateY = direction[1] + 'px';
+          this.phoneBackdrop.nativeElement.style.backgroundColor = `rgba(0, 0, 0, ${1 - (Math.abs(direction[1]) / 100)})`
+        }
+      }
+    } else if (when === 'end') {
+
+      const direction = [coord[0] - this.swipeCoord[0], coord[1] - this.swipeCoord[1]];
+      if(this.phoneTranslateY && Math.abs(direction[1]) > 90){
+        this.close();
+      } else{
+        this.image.nativeElement.style.transform = '';
+        this.phoneBackdrop.nativeElement.style.backgroundColor = `rgba(0, 0, 0, 1)`
+      }
       const duration = time - this.swipeTime;
-      if (duration < 1000 && Math.abs(direction[0]) > 30 && Math.abs(direction[0]) > Math.abs(direction[1] * 3)) {
+      if (duration < 1000 &&
+        Math.abs(direction[0]) > 30 &&
+        Math.abs(direction[0]) > Math.abs(direction[1] * 3)) {
+
+        this.phoneTranslateX = '0';
+        this.image.nativeElement.classList.add('horizTranslate');
+
         if (direction[0] < 0) {
           this.next();
         } else {
@@ -155,5 +186,11 @@ export class FileDataModalComponent implements OnInit {
         }
       }
     }
+  }
+
+  requestMeta(e: Event) {
+    e.stopPropagation();
+    e.preventDefault();
+    this.isPhoneMetaDisplay = !this.isPhoneMetaDisplay;
   }
 }

@@ -21,7 +21,7 @@ import {
   folderIcon,
   homeIcon,
   refreshIcon, sortByIcon,
-  storageIcon,
+  storageIcon, timesIcon
 } from '@cds/core/icon';
 import { CdsIconModule } from '@cds/angular';
 
@@ -52,7 +52,8 @@ export class LayoutModule {
       carIcon,
       filterIcon,
       angleIcon,
-      sortByIcon
+      sortByIcon,
+      timesIcon
     );
   }
 }
