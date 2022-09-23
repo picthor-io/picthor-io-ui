@@ -13,7 +13,7 @@ export class RootCardComponent implements OnDestroy {
   @Input()
   directory!: Directory;
 
-  syncJobs?: BatchJob[];
+  syncJobs: BatchJob[] = [];
 
   pollingSyncState = false;
   poll$?: Subscription;
@@ -24,7 +24,21 @@ export class RootCardComponent implements OnDestroy {
     }),
     filter((job) => job != null),
     tap((jobs) => {
-      this.syncJobs = jobs;
+      if (this.syncJobs.length === 0) {
+        this.syncJobs = jobs
+      } else {
+        let toRemove: number[] = [];
+        this.syncJobs.map(sj => {
+          let found = jobs.find(j => j.id === sj.id);
+          if (found) {
+            Object.assign(sj, found);
+          } else {
+            toRemove.push(sj.id);
+          }
+        })
+
+        this.syncJobs = this.syncJobs.filter(sj => !toRemove.includes(sj.id));
+      }
       this.pollingSyncState = !!jobs.find(j => j.state == 'PROCESSING');
     }),
     // wait 5 second while backend updates dir stats
