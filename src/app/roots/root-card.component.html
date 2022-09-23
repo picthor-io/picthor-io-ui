@@ -37,6 +37,16 @@
               ></clr-progress-bar>
             </div>
           </ng-container>
+          <ng-container *ngIf="job.totalItems == 1">
+            <div class="clr-col-12 p5" style="margin-top: 0">
+              <label>{{ job.name }}</label>
+            </div>
+            <div class="clr-col-12">
+              <clr-progress-bar
+                [clrLoop]="true"
+              ></clr-progress-bar>
+            </div>
+          </ng-container>
         </div>
       </ng-container>
     </div>
