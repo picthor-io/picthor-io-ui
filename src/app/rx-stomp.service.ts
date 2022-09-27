@@ -8,8 +8,7 @@ import { environment } from '../environments/environment';
 export class RxStompService extends RxStomp {
 
   rxStompConfig: RxStompConfig = {
-    // Which server?
-    brokerURL: 'ws://' + environment.apiHost + '/ws',
+    brokerURL: 'ws://' + environment.apiHost.split('://')[1] + '/ws',
 
     // // Headers
     // // Typical keys: login, passcode, host
