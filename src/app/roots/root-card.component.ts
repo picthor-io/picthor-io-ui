@@ -1,9 +1,11 @@
 import { Component, Input, OnDestroy } from '@angular/core';
 import { DirectoriesService } from '@picthor/directory/directory.service';
 import { Directory } from '@picthor/directory/directory';
-import { Subscription, timer } from 'rxjs';
 import { BatchJob } from '@picthor/batch-job/batch-job';
-import { delay, filter, finalize, mergeMap, takeWhile, tap } from 'rxjs/operators';
+import { JobCounter } from '@picthor/batch-job/job-counter';
+import { RxStompService } from '@picthor/rx-stomp.service';
+import { filter, map, tap } from 'rxjs/operators';
+import { Message } from '@stomp/stompjs';
 
 @Component({
   selector: 'app-root-card',
@@ -15,57 +17,39 @@ export class RootCardComponent implements OnDestroy {
 
   syncJobs: BatchJob[] = [];
 
-  pollingSyncState = false;
-  poll$?: Subscription;
-  pollObservable = timer(0, 500).pipe(
-    mergeMap(() => this.directoriesService.getSyncJobs(this.directory)),
-    finalize(() => {
-      this.pollingSyncState = false;
-    }),
-    filter((job) => job != null),
-    tap((jobs) => {
-      if (this.syncJobs.length === 0) {
-        this.syncJobs = jobs
-      } else {
-        let toRemove: number[] = [];
-        this.syncJobs.map(sj => {
-          let found = jobs.find(j => j.id === sj.id);
-          if (found) {
-            Object.assign(sj, found);
-          } else {
-            toRemove.push(sj.id);
+  constructor(protected directoriesService: DirectoriesService, private rxStompService: RxStompService) {
+    this.rxStompService.watch('/topic/jobs/add').pipe(
+      map<Message, BatchJob>(message => Object.assign(new BatchJob(), JSON.parse(message.body))),
+      filter(job => job.rootDirectoryId === this.directory.id),
+      tap(job => this.syncJobs.push(job))
+    ).subscribe();
+
+    this.rxStompService.watch('/topic/jobs/remove').pipe(
+      map<Message, BatchJob>(message => Object.assign(new BatchJob(), JSON.parse(message.body))),
+      filter(job => job.rootDirectoryId === this.directory.id),
+      tap(job => this.syncJobs = this.syncJobs.filter(sj => sj.id !== job.id))
+    ).subscribe();
+
+    this.rxStompService.watch('/topic/jobs/counter-update').pipe(
+      map<Message, JobCounter>(message => Object.assign(new JobCounter(), JSON.parse(message.body))),
+      tap(counter => {
+        this.syncJobs.forEach((sc, index) => {
+          if (sc.rootDirectoryId === this.directory.id && sc.id === counter.jobId) {
+            this.syncJobs[index].counter = counter;
           }
-        })
-
-        this.syncJobs = this.syncJobs.filter(sj => !toRemove.includes(sj.id));
-      }
-      this.pollingSyncState = !!jobs.find(j => j.state == 'PROCESSING');
-    }),
-    // wait 5 second while backend updates dir stats
-    delay(5000),
-    mergeMap(() => this.directoriesService.getById(this.directory.id)),
-    tap((dir) => {
-      this.directory = dir;
-    })
-  );
-
-  constructor(protected directoriesService: DirectoriesService) {
-    if (!this.pollingSyncState) {
-      this.pollingSyncState = true;
-      this.poll$ = this.pollObservable.pipe(takeWhile(() => this.pollingSyncState)).subscribe();
-    }
+        });
+      })
+    ).subscribe();
   }
 
   ngOnDestroy(): void {
-    this.poll$?.unsubscribe();
+    // this.jobRemoved$?.unsubscribe();
+    // this.jobAdded$?.unsubscribe();
   }
 
   syncDirectory(directory: Directory) {
-    if (!this.pollingSyncState) {
-      this.pollingSyncState = true;
-      this.directoriesService.sync(directory).subscribe((res) => {
-        this.poll$ = this.pollObservable.pipe(takeWhile(() => this.pollingSyncState)).subscribe();
-      });
+    if (this.syncJobs.length === 0) {
+      this.directoriesService.sync(directory).subscribe();
     }
   }
 }

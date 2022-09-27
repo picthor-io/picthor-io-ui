@@ -19,10 +19,10 @@ export class FileData extends AbstractEntity {
   directoryId!: number;
 
   static previewUrl(file: FileData, size: number | string = 250) {
-    return environment.apiHost + '/thumbs/by-id/' + size + '/' + file.id + '.jpg';
+    return environment.apiScheme + environment.apiHost + '/thumbs/by-id/' + size + '/' + file.id + '.jpg';
   }
 
   static originalFileUrl(file: FileData) {
-    return environment.apiHost + '/originals/by-id/' + file.id + '/' + file.fileName;
+    return environment.apiScheme + environment.apiHost + '/originals/by-id/' + file.id + '/' + file.fileName;
   }
 }

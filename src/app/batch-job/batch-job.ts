@@ -1,4 +1,5 @@
 import { AbstractEntity } from '@picthor/abstract/abstract-entity';
+import { JobCounter } from '@picthor/batch-job/job-counter';
 
 export class BatchJob extends AbstractEntity {
   name!: string;
@@ -8,6 +9,6 @@ export class BatchJob extends AbstractEntity {
   processAt!: Date;
   totalItems!: number;
   totalProcessed!: number;
-  counterCurrent!: number;
-  counterTotal!: number;
+  rootDirectoryId!: number;
+  counter?: JobCounter;
 }

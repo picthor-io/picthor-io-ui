@@ -23,7 +23,9 @@ import { environment } from '../environments/environment';
 import { LazyLoadImageModule } from 'ng-lazyload-image';
 import {
   ClrComboboxModule,
-  ClrDropdownModule, ClrInputModule, ClrLoadingModule,
+  ClrDropdownModule,
+  ClrInputModule,
+  ClrLoadingModule,
   ClrModalModule,
   ClrProgressBarModule,
   ClrSignpostModule,
@@ -33,6 +35,7 @@ import { FileDataModalComponent } from '@picthor/file-data/file-data-modal/file-
 import { FileDataGridSortComponent } from '@picthor/file-data/file-data-grid-sort/file-data-grid-sort.component';
 import { FormsModule } from '@angular/forms';
 import { FileDataMetaComponent } from './file-data/file-data-meta/file-data-meta.component';
+import { RxStompService } from '@picthor/rx-stomp.service';
 
 function initializeAppEnv(httpClient: HttpClient): () => Observable<any> {
   return () =>
@@ -81,13 +84,15 @@ function initializeAppEnv(httpClient: HttpClient): () => Observable<any> {
     DirectoriesService,
     FileDataService,
     NotificationsService,
+    RxStompService,
     {
       provide: APP_INITIALIZER,
       useFactory: initializeAppEnv,
       deps: [HttpClient],
       multi: true,
-    },
+    }
   ],
   bootstrap: [AppComponent],
 })
-export class AppModule {}
+export class AppModule {
+}

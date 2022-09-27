@@ -4,4 +4,5 @@ export const environment = {
   siteUrl: '',
   serverTimezone: '',
   apiHost: '',
+  apiScheme: '',
 };

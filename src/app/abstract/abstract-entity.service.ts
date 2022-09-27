@@ -9,7 +9,7 @@ import { RouteParams } from '@picthor/abstract/route-params';
 export abstract class AbstractEntityService<T extends AbstractEntity> implements EntityService<T> {
   protected basePath: string;
   protected http: HttpClient;
-  protected apiUrl = environment.apiHost;
+  protected apiUrl = environment.apiScheme + environment.apiHost;
 
   protected constructor(basePath: string, http: HttpClient) {
     this.basePath = basePath;

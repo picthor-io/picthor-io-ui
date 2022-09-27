@@ -5,7 +5,7 @@
         <div class="clr-col-auto">
           {{ directory.name }}
         </div>
-        <div [hidden]="!pollingSyncState" class="clr-col-auto">
+        <div [hidden]="syncJobs.length === 0" class="clr-col-auto">
           <clr-spinner [clrSmall]="true"></clr-spinner>
         </div>
       </div>
@@ -15,29 +15,29 @@
         <div class="clr-row directory-card-row">
           <div class="clr-col-12">
             <span class="p5 directory-card-stats"
-              >{{ directory.stats.totalDirsNum }} | {{ directory.stats.totalFilesNum }} |
+            >{{ directory.stats.totalDirsNum }} | {{ directory.stats.totalFilesNum }} |
               {{ directory.stats.totalSizeBytes | appPrettyBytes }}</span
             >
           </div>
         </div>
       </div>
-      <br />
-      <ng-container *ngIf="syncJobs && this.pollingSyncState">
+      <br/>
+      <ng-container *ngIf="syncJobs.length != 0">
         <div *ngFor="let job of syncJobs" class="progress-block clr-row">
-          <ng-container *ngIf="job.counterCurrent > 0">
+          <ng-container *ngIf="job.totalItems > 1 && job.counter">
             <div class="clr-col-12 p5" style="margin-top: 0">
               <label>{{ job.name }}</label
-              >: {{ job.counterCurrent }} of {{ job.counterTotal }}
+              >: {{ job.counter.current }} of {{ job.counter.total }}
             </div>
             <div class="clr-col-12">
               <clr-progress-bar
                 [clrFlash]="true"
-                [clrValue]="job.counterCurrent"
-                [clrMax]="job.counterTotal"
+                [clrValue]="job.counter.current"
+                [clrMax]="job.counter.total"
               ></clr-progress-bar>
             </div>
           </ng-container>
-          <ng-container *ngIf="job.totalItems === 1">
+          <ng-container *ngIf="job.counter?.total === 1">
             <div class="clr-col-12 p5" style="margin-top: 0">
               <label>{{ job.name }}</label>
             </div>
@@ -58,8 +58,9 @@
     >
       Browse
     </button>
-    <button [disabled]="pollingSyncState" (click)="syncDirectory(directory)" type="button" class="btn btn-sm btn-link">
-      {{ pollingSyncState ? 'Syncing' : 'Sync' }}
+    <button [disabled]="syncJobs.length != 0" (click)="syncDirectory(directory)" type="button"
+            class="btn btn-sm btn-link">
+      {{ (syncJobs.length > 1) ? 'Syncing' : 'Sync' }}
     </button>
   </div>
 </div>
