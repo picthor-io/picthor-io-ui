@@ -14,10 +14,9 @@
       <div class="card-media-description">
         <div class="clr-row directory-card-row">
           <div class="clr-col-12">
-            <span class="p5 directory-card-stats"
-            >{{ directory.stats.totalDirsNum }} | {{ directory.stats.totalFilesNum }} |
-              {{ directory.stats.totalSizeBytes | appPrettyBytes }}</span
-            >
+            <span *ngIf="directory.stats.totalSizeBytes"
+                  class="p5 directory-card-stats">{{ directory.stats.totalDirsNum }}
+              | {{ directory.stats.totalFilesNum }} | {{ directory.stats.totalSizeBytes | appPrettyBytes }}</span>
           </div>
         </div>
       </div>
