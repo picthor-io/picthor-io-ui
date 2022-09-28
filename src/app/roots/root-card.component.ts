@@ -1,4 +1,4 @@
-import { Component, Input, OnDestroy } from '@angular/core';
+import { AfterViewInit, Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { DirectoriesService } from '@picthor/directory/directory.service';
 import { Directory } from '@picthor/directory/directory';
 import { BatchJob } from '@picthor/batch-job/batch-job';
@@ -12,7 +12,7 @@ import { Subscription } from 'rxjs';
   selector: 'app-root-card',
   templateUrl: './root-card.component.html',
 })
-export class RootCardComponent implements OnDestroy {
+export class RootCardComponent implements OnDestroy, AfterViewInit {
   @Input()
   directory!: Directory;
 
@@ -56,6 +56,10 @@ export class RootCardComponent implements OnDestroy {
         }
       })
     ).subscribe();
+  }
+
+  ngAfterViewInit() {
+    this.directoriesService.getSyncJobs(this.directory).subscribe(jobs => this.syncJobs = jobs);
   }
 
   ngOnDestroy(): void {
