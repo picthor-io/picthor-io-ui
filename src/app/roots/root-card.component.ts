@@ -32,9 +32,10 @@ export class RootCardComponent implements OnDestroy {
 
     this.rxStompService.watch('/topic/jobs/counter-update').pipe(
       map<Message, JobCounter>(message => Object.assign(new JobCounter(), JSON.parse(message.body))),
+      filter(counter => counter.rootDirectoryId === this.directory.id),
       tap(counter => {
         this.syncJobs.forEach((sc, index) => {
-          if (sc.rootDirectoryId === this.directory.id && sc.id === counter.jobId) {
+          if (sc.id === counter.jobId) {
             this.syncJobs[index].counter = counter;
           }
         });
